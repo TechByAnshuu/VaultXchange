@@ -1,0 +1,27 @@
+# Node.js
+node_modules/
+dist/
+dist-ssr/
+*.local
+.env
+.env.*
+!.env.example
+
+# Maven / Java
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Temporary files
+tmp/
+temp/

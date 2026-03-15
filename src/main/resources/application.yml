@@ -1,0 +1,32 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    # MySQL JDBC connection – change host/db name/credentials as needed
+    url: jdbc:mysql://localhost:3306/banking_sim?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: root123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      # update creates/alters tables automatically based on entities
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  # Run data.sql seed only when using embedded DB; for MySQL we seed manually
+  sql:
+    init:
+      mode: never
+
+logging:
+  level:
+    root: INFO
+    # Enable debug logging for our own package to trace flow
+    com.bank: DEBUG
+    org.hibernate.SQL: DEBUG
