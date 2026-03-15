@@ -2,7 +2,7 @@
 
 VaultX Exchange is a modern, premium banking simulation platform designed for secure and efficient financial management. It features a robust Spring Boot backend and a dynamic React frontend.
 
-## 🚀 Features
+##  Features
 
 - **Account Management**: Create and manage multiple accounts with ease.
 - **Secure Transactions**: Transfer funds securely between accounts.
@@ -10,7 +10,7 @@ VaultX Exchange is a modern, premium banking simulation platform designed for se
 - **Modern UI**: A sleek, dark-themed interface with smooth animations and responsive design.
 - **Data Integrity**: Built with JPA/Hibernate and MySQL for reliable data persistence.
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 ### Backend
 - **Framework**: Spring Boot 3.2.3
@@ -27,7 +27,7 @@ VaultX Exchange is a modern, premium banking simulation platform designed for se
 - **Styling**: Vanilla CSS (Custom Glassmorphism Design)
 - **Icons**: Lucide React
 
-## 📦 Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
 - JDK 17 or higher
@@ -61,14 +61,14 @@ VaultX Exchange is a modern, premium banking simulation platform designed for se
    npm run dev
    ```
 
-## ⚙️ Configuration
+##  Configuration
 
 The project uses `.env` files for environment-specific configurations. Make sure to create these from the provided `.env.example` templates in both the root and `frontend` directories.
 
 - **Root `.env`**: Database credentials and backend port.
 - **Frontend `.env`**: API URL and application branding.
 
-## 🎨 Branding Note
+##  Branding Note
 
 **VaultX Exchange** styling:
 - **Vault**: Navy Blue
