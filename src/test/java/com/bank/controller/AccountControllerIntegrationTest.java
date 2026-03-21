@@ -3,6 +3,7 @@ package com.bank.controller;
 import com.bank.dto.AccountDTO;
 import com.bank.entity.Account;
 import com.bank.repository.AccountRepository;
+import com.bank.repository.TransactionRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,10 +32,14 @@ public class AccountControllerIntegrationTest {
     private AccountRepository accountRepository;
 
     @Autowired
+    private TransactionRepository transactionRepository;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
+        transactionRepository.deleteAll();
         accountRepository.deleteAll();
     }
 
