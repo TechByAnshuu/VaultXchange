@@ -20,17 +20,19 @@ const Login = () => {
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
       <div className="glass-card" style={{ width: '100%', maxWidth: '400px', textAlign: 'center' }}>
         <div style={{ marginBottom: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div className="flex items-center space-x-1 mb-4">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-              <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z" fill="#C0392B" />
-              <path d="M12 7V17M7 12H17" stroke="white" strokeWidth="2" strokeLinecap="round" />
-            </svg>
+          <div className="flex items-center gap-2.5 mb-6">
+            <div className="w-12 h-12 rounded-xl bg-[#3D3535] flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#3D3535]/30">
+              <svg width={26} height={26} viewBox="0 0 24 24" fill="none">
+                <path d="M9 12L11 14L15 10M12 2L3 7V13C3 17.97 7.02 22.63 12 24C16.98 22.63 21 17.97 21 13V7L12 2Z"
+                  stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
             <div className="flex flex-col leading-none text-left">
               <div className="flex items-baseline">
-                <span className="text-2xl font-black italic tracking-tighter" style={{ color: '#1A1A2E' }}>Vault</span>
-                <span className="text-3xl font-black italic tracking-tighter" style={{ color: '#C0392B' }}>X</span>
+                <span className="text-2xl font-black italic tracking-tighter text-[#1A1A2E]">Vault</span>
+                <span className="text-3xl font-black italic tracking-tighter text-[#3D3535]">X</span>
               </div>
-              <span className="text-[8px] font-black tracking-[0.3em] ml-0.5" style={{ color: '#6C6C80' }}>EXCHANGE</span>
+              <span className="text-[8px] font-black tracking-[0.3em] text-[#6C6C80] mt-0.5">EXCHANGE</span>
             </div>
           </div>
           <h2 className="text-navy font-bold" style={{ fontSize: '1.5rem', margin: 0 }}>Portal Access</h2>

@@ -2,315 +2,312 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
-  // VaultX Exchange Branding
   const brand = { name: 'Vault', suffix: 'X', sub: 'EXCHANGE' };
   const [isScrolled, setIsScrolled] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const toggleFaq = (index) => {
-    setOpenFaq(openFaq === index ? null : index);
-  };
-
-  const colors = {
-    cream: '#F5F0EB',         // ALL page backgrounds
-    white: '#FFFFFF',          // cards, navbar, forms, modals
-    offWhite: '#FAF7F4',       // alternate sections
-    novaBlush: '#F2C4CE',      // testimonials, soft feature bg
-    footerBg: '#EDE8E1',       // footer background (light, not dark)
-    deepNavy: '#1A1A2E',       // TEXT ONLY — headings, nav links
-    nearBlack: '#0F0F1A',      // TEXT ONLY — body text
-    deepRed: '#C0392B',        // CTA buttons, active states, highlights
-    vividRed: '#E84040',       // button hover, withdraw badge, errors
-    orange: '#E8580C',         // secondary buttons, badges, icons
-    gold: '#F9C74F',           // balance amounts, deposit badge
-    mutedGray: '#6C6C80',      // subtext, labels, placeholders
-    border: '#EDE8E1',         // borders and dividers
-  };
 
   const navLinks = [
     { name: 'Home', href: '#home' },
     { name: 'Features', href: '#features' },
     { name: 'How It Works', href: '#how-it-works' },
     { name: 'Pricing', href: '#pricing' },
-    { name: 'FAQ', href: '#faq' }
+    { name: 'FAQ', href: '#faq' },
   ];
 
   const faqs = [
-    { q: "How do I create an account?", a: "Simply click 'Get Started' and enter your details to open your first simulation account instantly." },
-    { q: "Is my money safe in the simulation?", a: "This is a bank simulation platform. No real money is used, making it a safe environment to practice financial management." },
-    { q: "How do I transfer funds between accounts?", a: "Navigate to the transfer section in your dashboard, select the source and destination accounts, and enter the amount." },
-    { q: "Can I have multiple accounts?", a: "Yes! Our Pro and Enterprise plans allow you to manage multiple distinct accounts under one single simulation profile." },
-    { q: "How do I view my transaction history?", a: "Each account page features a detailed transaction ledger showing every deposit, withdrawal, and transfer with timestamps." }
+    { q: 'How do I create an account?', a: "Simply click 'Get Started' and enter your details to open your first simulation account instantly." },
+    { q: 'Is my money safe in the simulation?', a: 'This is a bank simulation platform. No real money is used — a completely safe environment to practice financial management.' },
+    { q: 'How do I transfer funds?', a: 'Go to any account page, click Transfer, enter the destination account number and amount, then confirm.' },
+    { q: 'Can I have multiple accounts?', a: 'Yes! Pro and Enterprise plans support multiple accounts under one simulation profile.' },
+    { q: 'How do I view my transaction history?', a: 'Every account page has a full transaction ledger with deposits, withdrawals, and transfers with timestamps.' },
   ];
 
+  const features = [
+    {
+      title: 'Multiple Accounts',
+      desc: 'Open and manage multiple bank accounts from one place with distinct balances and complete transaction histories.',
+      icon: 'M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z',
+      iconColor: 'text-[#3D3535]',
+      iconBg: 'bg-[#3D3535]/10',
+    },
+    {
+      title: 'Instant Transfers',
+      desc: 'Send money between accounts in seconds with zero fees. Experience real-time high-speed financial simulation.',
+      icon: 'M13 10V3L4 14h7v7l9-11h-7z',
+      iconColor: 'text-[#E8580C]',
+      iconBg: 'bg-[#E8580C]/10',
+    },
+    {
+      title: 'Bank-Grade Security',
+      desc: 'Your data is protected with enterprise-level encryption and simulation-safe environment protocols at every layer.',
+      icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+      iconColor: 'text-emerald-500',
+      iconBg: 'bg-emerald-500/10',
+    },
+  ];
+
+  const testimonials = [
+    { name: 'Alice Johnson', role: 'Student', quote: 'VaultX changed how I learn finance. The simulation is incredibly realistic and the UI is genuinely beautiful.' },
+    { name: 'Bob Martinez', role: 'Freelancer', quote: 'Finally a way to map out business finances without any risk. The transfer speeds are amazing — feels completely real.' },
+    { name: 'Sarah Lee', role: 'Developer', quote: 'The cleanest banking UI I have ever seen. Works flawlessly and the design feels premium in every single detail.' },
+  ];
+
+  const stats = [
+    { n: '$2B+', l: 'Transactions Processed', emoji: <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg> },
+    { n: '10K+', l: 'Active Accounts', emoji: <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg> },
+    { n: '99.9%', l: 'System Uptime', emoji: <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
+    { n: '24/7', l: 'Customer Support', emoji: <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg> },
+  ];
+
+  // ── Logo ──────────────────────────────────
+  const Logo = ({ large = false }) => (
+    <div className="flex items-center gap-2.5">
+      <div className={`${large ? 'w-10 h-10' : 'w-9 h-9'} rounded-xl bg-[#3D3535] flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#3D3535]/30`}>
+        <svg width={large ? 22 : 18} height={large ? 22 : 18} viewBox="0 0 24 24" fill="none">
+          <path d="M9 12L11 14L15 10M12 2L3 7V13C3 17.97 7.02 22.63 12 24C16.98 22.63 21 17.97 21 13V7L12 2Z"
+            stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </div>
+      <div className="flex flex-col leading-none">
+        <div className="flex items-baseline">
+          <span className={`${large ? 'text-2xl' : 'text-xl'} font-black italic tracking-tight text-[#1A1A2E]`}>{brand.name}</span>
+          <span className={`${large ? 'text-3xl' : 'text-2xl'} font-black italic tracking-tight text-[#3D3535]`}>{brand.suffix}</span>
+        </div>
+        <span className="text-[7px] font-black tracking-[0.3em] text-[#6C6C80] mt-0.5">{brand.sub}</span>
+      </div>
+    </div>
+  );
+
+  // ── Check icon ────────────────────────────
+  const Check = ({ color = '#3D3535' }) => (
+    <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${color}18` }}>
+      <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+        <path d="M2 6l3 3 5-5" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </div>
+  );
+
   return (
-    <div style={{ backgroundColor: colors.cream, color: colors.nearBlack, fontFamily: "'Inter', sans-serif" }}>
-      <style>
-        {`
-          @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap');
+    <div className="bg-[#F5F0EB] text-[#0F0F1A] font-sans overflow-x-hidden">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800;900&display=swap');
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .nav-link-underline { position: relative; padding-bottom: 3px; }
+        .nav-link-underline::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: #3D3535; transition: width .25s ease; border-radius: 2px; }
+        .nav-link-underline:hover::after { width: 100%; }
+        .feature-card-hover { position: relative; overflow: hidden; }
+        .feature-card-hover::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #3D3535; transform: scaleX(0); transform-origin: left; transition: transform .3s ease; }
+        .feature-card-hover:hover::before { transform: scaleX(1); }
+        .faq-icon-rotate { transition: all .3s ease; }
+        .faq-icon-rotate.open { background: #3D3535 !important; transform: rotate(180deg); }
+      `}</style>
 
-          html { scroll-behavior: smooth; }
-          .font-playfair { font-family: 'Playfair Display', serif; }
-          .btn-primary { transition: background-color 0.2s ease, transform 0.2s ease; }
-          .btn-primary:hover { background-color: ${colors.vividRed} !important; transform: translateY(-1px); }
-          .btn-outline:hover { background-color: ${colors.deepRed} !important; color: #fff !important; }
-          .nav-link { transition: color 0.2s ease; }
-          .nav-link:hover { color: ${colors.deepRed} !important; }
-          .feature-card { transition: all 0.3s ease; border-top: 4px solid transparent; }
-          .feature-card:hover { border-top: 4px solid ${colors.deepRed} !important; transform: translateY(-6px); box-shadow: 0 20px 40px rgba(192,57,43,0.12); }
-          .footer-link { transition: color 0.2s ease; }
-          .footer-link:hover { color: ${colors.deepRed} !important; }
-          .social-icon { transition: color 0.2s ease, transform 0.2s ease; }
-          .social-icon:hover { color: ${colors.deepRed} !important; transform: scale(1.15); }
-        `}
-      </style>
+      {/* ══════════════════════════════════════
+          NAVBAR
+      ══════════════════════════════════════ */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#EDE8E1] transition-all duration-300 ${isScrolled ? 'shadow-md py-3' : 'py-5'}`}>
+        <div className="w-full px-8 flex items-center justify-between">
+          <Logo />
 
-      {/* ── 1. NAVBAR ── */}
-      <nav
-        className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'shadow-md py-4' : 'py-6'}`}
-        style={{ backgroundColor: colors.white, borderBottom: `1px solid ${colors.border}` }}
-      >
-        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-          <div className="flex items-center space-x-1">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-              <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z" fill={colors.deepRed} />
-              <path d="M12 7V17M7 12H17" stroke="white" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-            <div className="flex flex-col leading-none">
-              <div className="flex items-baseline">
-                <span className="text-2xl font-black italic tracking-tighter" style={{ color: colors.deepNavy }}>{brand.name}</span>
-                <span className="text-3xl font-black italic tracking-tighter" style={{ color: colors.deepRed }}>{brand.suffix}</span>
-              </div>
-              <span className="text-[8px] font-black tracking-[0.3em] ml-0.5" style={{ color: colors.mutedGray }}>{brand.sub}</span>
-            </div>
-          </div>
-
-          {/* Desktop Nav Links */}
-          <div className="hidden md:flex space-x-8">
-            {navLinks.map(link => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="nav-link font-medium"
-                style={{ color: colors.deepNavy }}
-              >
-                {link.name}
+          {/* Desktop nav links */}
+          <div className="hidden md:flex items-center gap-9">
+            {navLinks.map(l => (
+              <a key={l.name} href={l.href}
+                className="nav-link-underline text-[#1A1A2E] hover:text-[#3D3535] font-medium text-sm transition-colors duration-200">
+                {l.name}
               </a>
             ))}
           </div>
 
-          {/* Desktop Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Link
-              to="/login"
-              className="btn-outline px-6 py-2 border-2 font-semibold rounded-lg transition-all"
-              style={{ color: colors.deepRed, borderColor: colors.deepRed, backgroundColor: 'transparent' }}
-            >
+          {/* Desktop buttons */}
+          <div className="hidden md:flex items-center gap-3">
+            <Link to="/login"
+              className="px-5 py-2.5 border-2 border-[#3D3535] text-[#3D3535] font-semibold text-sm rounded-xl hover:bg-[#3D3535] hover:text-white transition-all duration-200">
               Log In
             </Link>
-            <Link
-              to="/login"
-              className="btn-primary px-6 py-2 font-semibold text-white rounded-lg shadow-md"
-              style={{ backgroundColor: colors.deepRed }}
-            >
+            <Link to="/login"
+              className="px-5 py-2.5 bg-[#3D3535] text-white font-semibold text-sm rounded-xl hover:bg-[#2A2A2A] transition-all duration-200 shadow-lg shadow-[#3D3535]/25">
               Get Started
             </Link>
           </div>
 
           {/* Hamburger */}
-          <button className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={colors.deepNavy} strokeWidth="2">
-              <path d={isMobileMenuOpen ? "M18 6L6 18M6 6l12 12" : "M3 12h18M3 6h18M3 18h18"} />
+          <button className="md:hidden p-1" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1A1A2E" strokeWidth="2.5" strokeLinecap="round">
+              <path d={isMobileMenuOpen ? "M18 6L6 18M6 6l12 12" : "M3 8h18M3 16h18"} />
             </svg>
           </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile menu */}
         {isMobileMenuOpen && (
-          <div
-            className="md:hidden px-6 py-4 flex flex-col space-y-4 shadow-xl"
-            style={{ backgroundColor: colors.white, borderBottom: `1px solid ${colors.border}` }}
-          >
-            {navLinks.map(link => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="font-medium"
-                style={{ color: colors.deepNavy }}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.name}
+          <div className="md:hidden bg-white border-t border-[#EDE8E1] px-6 py-5 flex flex-col gap-4">
+            {navLinks.map(l => (
+              <a key={l.name} href={l.href}
+                className="text-[#1A1A2E] font-medium text-base"
+                onClick={() => setIsMobileMenuOpen(false)}>
+                {l.name}
               </a>
             ))}
-            <Link to="/login" className="font-semibold" style={{ color: colors.deepRed }}>Log In</Link>
-            <Link
-              to="/login"
-              className="py-3 rounded-lg text-center font-bold text-white"
-              style={{ backgroundColor: colors.deepRed }}
-            >
-              Get Started
-            </Link>
+            <div className="flex gap-3 pt-2">
+              <Link to="/login" className="flex-1 py-3 border-2 border-[#3D3535] text-[#3D3535] font-bold text-sm rounded-xl text-center">Log In</Link>
+              <Link to="/login" className="flex-1 py-3 bg-[#3D3535] text-white font-bold text-sm rounded-xl text-center">Get Started</Link>
+            </div>
           </div>
         )}
       </nav>
 
-      {/* ── 2. HERO SECTION ── */}
-      <section id="home" className="pt-32 pb-20 px-6 min-h-[90vh] flex items-center" style={{ backgroundColor: colors.cream }}>
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          {/* Left */}
-          <div className="space-y-8">
-            <span
-              className="inline-block px-4 py-1 rounded-full text-xs font-bold tracking-wider"
-              style={{ backgroundColor: colors.white, color: colors.orange, border: `1px solid ${colors.orange}` }}
-            >
-              🏦 THE FUTURE OF BANKING
-            </span>
-            <h1
-              className="font-playfair text-5xl md:text-6xl leading-tight"
-              style={{ fontFamily: "'Playfair Display', serif", color: colors.deepNavy }}
-            >
-              Smarter Banking <br /> for Everyone
-            </h1>
-            <p className="text-lg md:text-xl max-w-lg leading-relaxed" style={{ color: colors.mutedGray }}>
-              Manage your accounts, transfer funds, and track every transaction — all in one secure simulation platform.
-            </p>
-            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-              <Link
-                to="/login"
-                className="btn-primary px-8 py-4 font-bold text-white rounded-xl text-center shadow-lg"
-                style={{ backgroundColor: colors.deepRed }}
-              >
-                Get Started →
-              </Link>
-              <button
-                className="btn-outline px-8 py-4 font-bold rounded-xl border-2 text-center transition-all"
-                style={{ borderColor: colors.deepRed, color: colors.deepRed, backgroundColor: colors.white }}
-              >
-                Learn More
-              </button>
-            </div>
-            <div className="flex flex-wrap gap-6 text-sm font-medium pt-2" style={{ color: colors.mutedGray }}>
-              {['Free to use', 'Instant setup', 'Secure transactions'].map(item => (
-                <span key={item} className="flex items-center gap-2">
-                  <svg width="16" height="16" style={{ color: colors.deepRed }} fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
-                  </svg>
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
+      {/* ══════════════════════════════════════
+          HERO
+      ══════════════════════════════════════ */}
+      <section id="home" className="bg-[#F5F0EB] pt-32 pb-20 min-h-[92vh] flex items-center px-8">
+        <div className="w-full">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
 
-          {/* Right — Mock Card */}
-          <div className="relative">
-            <div
-              className="p-8 rounded-3xl shadow-2xl relative z-10 overflow-hidden transform md:rotate-2 hover:rotate-0 transition-transform duration-500"
-              style={{ backgroundColor: colors.white, borderTop: `6px solid ${colors.deepRed}` }}
-            >
-              <div className="flex justify-between items-center mb-10">
-                <span className="font-bold text-sm tracking-widest" style={{ color: colors.mutedGray }}>NEXUS CARD</span>
-                <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
-                  <circle cx="12" cy="12" r="12" fill={colors.deepRed} fillOpacity="0.8" />
-                  <circle cx="28" cy="12" r="12" fill={colors.orange} fillOpacity="0.8" />
-                </svg>
+            {/* Left */}
+            <div className="flex flex-col gap-7">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#E8580C]/30 bg-[#E8580C]/06 w-fit">
+                <span className="text-sm">🏦</span>
+                <span className="text-xs font-bold text-[#E8580C] tracking-widest">THE FUTURE OF BANKING</span>
               </div>
-              <div className="mb-8">
-                <p className="text-xs font-medium mb-1" style={{ color: colors.mutedGray }}>Current Balance</p>
-                <h4 className="text-4xl font-bold" style={{ color: colors.gold }}>$12,345.67</h4>
+
+              <h1 className="font-playfair text-5xl md:text-6xl font-bold text-[#1A1A2E] leading-[1.15]">
+                Smarter Banking<br />
+                <em className="text-[#3D3535] not-italic font-bold" style={{ fontStyle: 'italic' }}>for Everyone</em>
+              </h1>
+
+              <p className="text-lg text-[#6C6C80] leading-relaxed max-w-lg">
+                Manage accounts, transfer funds, and track every transaction — all in one secure simulation platform built for the modern world.
+              </p>
+
+              <div className="flex flex-wrap gap-3">
+                <Link to="/login"
+                  className="px-8 py-4 bg-[#3D3535] text-white font-bold rounded-xl hover:bg-[#2A2A2A] transition-all duration-200 shadow-xl shadow-[#3D3535]/25 hover:-translate-y-0.5">
+                  Get Started →
+                </Link>
+                <button className="px-8 py-4 border-2 border-[#3D3535] text-[#3D3535] font-bold rounded-xl hover:bg-[#3D3535] hover:text-white transition-all duration-200 bg-white">
+                  Watch Demo
+                </button>
               </div>
-              <div className="flex justify-between items-end">
-                <div>
-                  <p className="text-[10px] uppercase tracking-widest mb-1" style={{ color: colors.mutedGray }}>Account Number</p>
-                  <p className="text-sm font-bold font-mono tracking-widest" style={{ color: colors.deepNavy }}>**** **** **** 8892</p>
+
+              <div className="flex flex-wrap gap-5 pt-1">
+                {['Free to use', 'Instant setup', 'Secure transactions'].map(item => (
+                  <div key={item} className="flex items-center gap-2 text-sm text-[#6C6C80] font-medium">
+                    <Check />
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right — Hero card */}
+            <div className="relative hidden md:block p-5">
+              {/* Background blobs */}
+              <div className="absolute -top-4 -right-4 w-full h-full rounded-3xl bg-[#DDD8D0] opacity-40 z-0" />
+              <div className="absolute -bottom-2 left-6 w-3/4 h-3/4 rounded-3xl bg-[#F9C74F]/10 z-0" />
+
+              {/* Card */}
+              <div className="relative z-10 bg-white rounded-3xl p-8 shadow-2xl border-t-[5px] border-[#3D3535] rotate-1 hover:rotate-0 transition-transform duration-500">
+                <div className="flex justify-between items-center mb-7">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#3D3535]" />
+                    <span className="text-[11px] font-black tracking-[0.15em] text-[#6C6C80]">VAULTX CARD</span>
+                  </div>
+                  <svg width="44" height="26" viewBox="0 0 44 26" fill="none">
+                    <circle cx="14" cy="13" r="13" fill="#3D3535" fillOpacity="0.85" />
+                    <circle cx="30" cy="13" r="13" fill="#E8580C" fillOpacity="0.75" />
+                  </svg>
                 </div>
-                <div className="text-right">
-                  <p className="text-[10px] uppercase tracking-widest mb-1" style={{ color: colors.mutedGray }}>Holder Name</p>
-                  <p className="text-sm font-bold" style={{ color: colors.deepNavy }}>ALEX R. MARTINEZ</p>
+
+                <div className="mb-6">
+                  <p className="text-[11px] font-semibold text-[#6C6C80] tracking-widest uppercase mb-2">Available Balance</p>
+                  <h3 className="text-5xl font-extrabold text-[#F9C74F] tracking-tight">$12,345.67</h3>
+                </div>
+
+                <div className="h-px bg-[#EDE8E1] mb-5" />
+
+                <div className="flex justify-between items-end mb-5">
+                  <div>
+                    <p className="text-[9px] font-bold text-[#6C6C80] tracking-[0.15em] uppercase mb-1.5">Account Number</p>
+                    <p className="text-sm font-bold font-mono tracking-widest text-[#1A1A2E]">**** **** **** 8892</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[9px] font-bold text-[#6C6C80] tracking-[0.15em] uppercase mb-1.5">Holder</p>
+                    <p className="text-sm font-bold text-[#1A1A2E]">ALEX R. MARTINEZ</p>
+                  </div>
+                </div>
+
+                <div className="border-t border-[#EDE8E1] pt-4">
+                  <p className="text-[11px] font-bold text-[#6C6C80] tracking-widest uppercase mb-3">Recent Activity</p>
+                  {[
+                    { label: 'Deposit from Alice', amount: '+$500.00', color: 'text-emerald-500' },
+                    { label: 'Transfer to Bob', amount: '-$150.00', color: 'text-[#3D3535]' },
+                  ].map((tx, i) => (
+                    <div key={i} className={`flex justify-between items-center py-2 ${i === 0 ? 'border-b border-[#EDE8E1]' : ''}`}>
+                      <span className="text-sm text-[#6C6C80] font-medium">{tx.label}</span>
+                      <span className={`text-sm font-bold ${tx.color}`}>{tx.amount}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
-            {/* Blush shadow behind card */}
-            <div
-              className="absolute -top-4 -right-4 w-full h-full rounded-3xl -z-10 opacity-40"
-              style={{ backgroundColor: colors.novaBlush }}
-            />
           </div>
         </div>
       </section>
 
-      {/* ── 3. STATS BAR ── */}
-      <div style={{ backgroundColor: colors.deepRed }} className="py-12 px-6">
-        <div className="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-8">
-          {[
-            { n: '$2B+', l: 'Transactions Processed' },
-            { n: '10K+', l: 'Active Accounts' },
-            { n: '99.9%', l: 'System Uptime' },
-            { n: '24/7', l: 'Customer Support' }
-          ].map((s, i, arr) => (
-            <React.Fragment key={s.l}>
-              <div className="text-center flex-1 min-w-[140px]">
-                <h5 className="text-4xl font-bold text-white mb-2">{s.n}</h5>
-                <p className="text-sm font-medium" style={{ color: colors.novaBlush }}>{s.l}</p>
+      {/* ══════════════════════════════════════
+          STATS BAR
+      ══════════════════════════════════════ */}
+      <div className="bg-[#3D3535]">
+        <div className="w-full px-8">
+          <div className="flex flex-wrap">
+            {stats.map((s, i) => (
+              <div key={s.l}
+                className={`flex-1 min-w-[180px] py-9 px-6 text-center ${i < stats.length - 1 ? 'border-r border-white/10' : ''}`}>
+                <div className="flex justify-center text-[#F9C74F] mb-3">{s.emoji}</div>
+                <div className="text-4xl font-extrabold text-white mb-1 tracking-tight">{s.n}</div>
+                <div className="text-sm font-medium text-white/80">{s.l}</div>
               </div>
-              {i < arr.length - 1 && (
-                <div className="hidden lg:block h-12 w-px" style={{ backgroundColor: 'rgba(242,196,206,0.3)' }} />
-              )}
-            </React.Fragment>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* ── 4. FEATURES SECTION ── */}
-      <section id="features" className="py-24 px-6" style={{ backgroundColor: colors.offWhite }}>
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <span className="text-xs font-bold tracking-widest" style={{ color: colors.orange }}>SMART FINANCIAL TOOLS</span>
-            <h2 className="text-4xl font-bold mt-4" style={{ color: colors.deepNavy }}>Everything You Need to Bank Smarter</h2>
+      {/* ══════════════════════════════════════
+          FEATURES
+      ══════════════════════════════════════ */}
+      <section id="features" className="bg-[#FAF7F4] py-24 px-8">
+        <div className="w-full">
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#E8580C]/08 border border-[#E8580C]/20 text-xs font-black text-[#E8580C] tracking-widest mb-4">
+              SMART FINANCIAL TOOLS
+            </span>
+            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-[#1A1A2E]">
+              Everything You Need to Bank Smarter
+            </h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                t: 'Multiple Accounts',
-                d: 'Open and manage multiple bank accounts from one place with distinct balances and histories.',
-                icon: <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
-              },
-              {
-                t: 'Instant Transfers',
-                d: 'Send money between accounts in seconds with zero fees. Experience high-speed financial simulation.',
-                icon: <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-              },
-              {
-                t: 'Bank-Grade Security',
-                d: 'Your data is protected with enterprise-level encryption and simulation-safe environment protocols.',
-                icon: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              }
-            ].map(f => (
-              <div
-                key={f.t}
-                className="feature-card p-10 rounded-2xl shadow-sm"
-                style={{ backgroundColor: colors.white, border: `1px solid ${colors.border}` }}
-              >
-                <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center mb-8"
-                  style={{ backgroundColor: `${colors.deepRed}12` }}
-                >
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={colors.deepRed} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    {f.icon}
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {features.map(f => (
+              <div key={f.title}
+                className="feature-card-hover bg-white border border-[#EDE8E1] rounded-2xl p-9 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#3D3535]/10 hover:border-[#3D3535]/20 transition-all duration-300">
+                <div className={`w-14 h-14 ${f.iconBg.replace('bg-[#3D3535]/10', 'bg-[#3D3535]/10')} rounded-2xl flex items-center justify-center mb-6`}>
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" className={f.iconColor.replace('text-[#3D3535]', 'text-[#3D3535]')}
+                    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d={f.icon} />
                   </svg>
                 </div>
-                <h4 className="text-xl font-bold mb-4" style={{ color: colors.deepNavy }}>{f.t}</h4>
-                <p className="mb-8 leading-relaxed" style={{ color: colors.mutedGray }}>{f.d}</p>
-                <a href="#" className="font-bold inline-flex items-center gap-2 transition-all hover:gap-3" style={{ color: colors.deepRed }}>
-                  Learn More <span>→</span>
+                <h4 className="text-xl font-bold text-[#1A1A2E] mb-3">{f.title}</h4>
+                <p className="text-[#6C6C80] leading-relaxed mb-6">{f.desc}</p>
+                <a href="#" className="inline-flex items-center gap-1.5 text-[#3D3535] font-bold text-sm hover:gap-3 transition-all duration-200">
+                  Learn More →
                 </a>
               </div>
             ))}
@@ -318,71 +315,79 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* ── 5. HOW IT WORKS ── */}
-      <section id="how-it-works" className="py-24 px-6" style={{ backgroundColor: colors.cream }}>
-        <div className="max-w-7xl mx-auto">
+      {/* ══════════════════════════════════════
+          HOW IT WORKS
+      ══════════════════════════════════════ */}
+      <section id="how-it-works" className="bg-[#F5F0EB] py-24 px-8">
+        <div className="w-full">
           <div className="text-center mb-20">
-            <span className="text-xs font-bold tracking-widest" style={{ color: colors.orange }}>SIMPLE PROCESS</span>
-            <h2 className="text-4xl font-bold mt-4" style={{ color: colors.deepNavy }}>Up and Running in 3 Simple Steps</h2>
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#3D3535]/06 border border-[#3D3535]/15 text-xs font-black text-[#3D3535] tracking-widest mb-4">
+              SIMPLE PROCESS
+            </span>
+            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-[#1A1A2E]">
+              Up and Running in 3 Simple Steps
+            </h2>
           </div>
-          <div className="relative flex flex-col md:flex-row justify-between items-start space-y-20 md:space-y-0">
-            {/* Dotted connecting line */}
-            <div
-              className="hidden md:block absolute top-12 left-[15%] right-[15%] h-0"
-              style={{ borderTop: `2px dashed ${colors.mutedGray}`, opacity: 0.25, top: '3rem' }}
-            />
+
+          <div className="flex flex-col md:flex-row items-start gap-0">
             {[
-              { s: '01', t: 'Create Your Account', d: 'Click Get Started and sign up for your free simulator profile in seconds.' },
-              { s: '02', t: 'Add Your Funds', d: 'Deposit virtual currency into your new account to start your simulation.' },
-              { s: '03', t: 'Start Banking', d: 'Transfer funds, track history, and manage your entire financial world.' }
-            ].map(step => (
-              <div key={step.s} className="relative z-10 text-center flex-1 px-6">
-                <div
-                  className="w-24 h-24 rounded-full mx-auto flex items-center justify-center mb-8 border-2"
-                  style={{ borderColor: colors.deepRed, color: colors.deepRed, backgroundColor: colors.white }}
-                >
-                  <span className="text-2xl font-black">{step.s}</span>
+              { n: '01', t: 'Create Your Account', d: 'Click Get Started and sign up for your free simulator profile in under 60 seconds.', emoji: <svg width="36" height="36" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg> },
+              { n: '02', t: 'Add Your Funds', d: 'Deposit virtual currency into your new account to begin your financial simulation journey.', emoji: <svg width="36" height="36" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+              { n: '03', t: 'Start Banking', d: 'Transfer, withdraw, track history, and manage your entire financial world with ease.', emoji: <svg width="36" height="36" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13.5 4.5L21 3m0 0l-1.5 7.5M21 3l-6.75 6.75M12 8.25L4.5 15m0 0l-1.5 3 1.5-1.5zm0 0l1.5-1.5 6.75-6.75M8.25 12l-1.5 6M8.25 12l6-1.5" /></svg> },
+            ].map((step, i) => (
+              <React.Fragment key={step.n}>
+                <div className="flex-1 text-center px-6">
+                  <div className="w-20 h-20 rounded-full border-2 border-[#3D3535] bg-white flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#3D3535]/12">
+                    <span className="font-playfair text-2xl font-black text-[#3D3535] italic">{step.n}</span>
+                  </div>
+                  <div className="flex justify-center text-[#3D3535] mb-4">{step.emoji}</div>
+                  <h4 className="text-lg font-bold text-[#1A1A2E] mb-2">{step.t}</h4>
+                  <p className="text-sm text-[#6C6C80] leading-relaxed max-w-[220px] mx-auto">{step.d}</p>
                 </div>
-                <h4 className="text-xl font-bold mb-4" style={{ color: colors.deepNavy }}>{step.t}</h4>
-                <p style={{ color: colors.mutedGray }}>{step.d}</p>
-              </div>
+                {i < 2 && (
+                  <div className="hidden md:flex items-center justify-center w-16 pt-10 flex-shrink-0">
+                    <div className="w-full border-t-2 border-dashed border-[#EDE8E1]" />
+                  </div>
+                )}
+              </React.Fragment>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── 6. TESTIMONIALS ── */}
-      <section className="py-24 px-6" style={{ backgroundColor: colors.novaBlush }}>
-        <div className="max-w-7xl mx-auto">
+      {/* ══════════════════════════════════════
+          TESTIMONIALS
+      ══════════════════════════════════════ */}
+      <section className="bg-[#2C1F1F] py-24 px-8">
+        <div className="w-full">
           <div className="text-center mb-16">
-            <span className="text-xs font-bold tracking-widest" style={{ color: colors.orange }}>TESTIMONIALS</span>
-            <h2 className="text-4xl font-bold mt-4" style={{ color: colors.deepNavy }}>What Our Users Say</h2>
+            <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-black text-white/80 tracking-widest mb-4">
+              TESTIMONIALS
+            </span>
+            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-white">
+              What Our Users Say
+            </h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { n: 'Alice Johnson', r: 'Student', q: "Nexus changed how I learn finance. The simulation is incredibly realistic and intuitive." },
-              { n: 'Bob Martinez', r: 'Freelancer', q: "Finally, a way to map out my business finances without any risk. The transfer speeds are amazing!" },
-              { n: 'Sarah Lee', r: 'Developer', q: "The cleanest UI I've seen in a banking app. It works flawlessly and feels absolutely premium." }
-            ].map((t, i) => (
-              <div key={i} className="p-10 rounded-2xl shadow-xl" style={{ backgroundColor: colors.white }}>
-                <div className="flex mb-6">
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {testimonials.map((t, i) => (
+              <div key={i}
+                className="bg-white/5 border border-white/10 rounded-2xl p-9 shadow-lg hover:-translate-y-1 hover:bg-white/10 hover:border-white/20 transition-all duration-300">
+                <div className="flex gap-1 mb-5">
                   {[1, 2, 3, 4, 5].map(s => (
-                    <svg key={s} className="w-5 h-5" style={{ color: colors.gold }} fill="currentColor" viewBox="0 0 20 20">
+                    <svg key={s} width="18" height="18" fill="#F9C74F" viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
                 </div>
-                <p className="italic mb-8 font-medium leading-relaxed" style={{ color: colors.nearBlack }}>"{t.q}"</p>
-                <div className="flex items-center">
-                  <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center font-bold text-white mr-4 text-sm"
-                    style={{ backgroundColor: colors.deepRed }}
-                  >
-                    {t.n.split(' ').map(n => n[0]).join('')}
+                <p className="text-white/90 leading-relaxed italic mb-6 text-[15px]">"{t.quote}"</p>
+                <div className="flex items-center gap-3 pt-5 border-t border-white/10">
+                  <div className="w-11 h-11 rounded-full bg-[#3D3535] flex items-center justify-center text-white text-sm font-black flex-shrink-0">
+                    {t.name.split(' ').map(w => w[0]).join('')}
                   </div>
                   <div>
-                    <h5 className="font-bold" style={{ color: colors.deepNavy }}>{t.n}</h5>
-                    <p className="text-xs uppercase font-bold tracking-widest" style={{ color: colors.mutedGray }}>{t.r}</p>
+                    <p className="text-sm font-bold text-white">{t.name}</p>
+                    <p className="text-xs font-semibold text-white/50 uppercase tracking-widest">{t.role}</p>
                   </div>
                 </div>
               </div>
@@ -391,98 +396,78 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* ── 7. PRICING SECTION ── */}
-      <section id="pricing" className="py-24 px-6" style={{ backgroundColor: colors.white }}>
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <span className="text-xs font-bold tracking-widest" style={{ color: colors.orange }}>PRICING</span>
-            <h2 className="text-4xl font-bold mt-4" style={{ color: colors.deepNavy }}>Simple, Transparent Plans</h2>
+      {/* ══════════════════════════════════════
+          PRICING
+      ══════════════════════════════════════ */}
+      <section id="pricing" className="bg-white py-24 px-8">
+        <div className="w-full">
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#E8580C]/08 border border-[#E8580C]/20 text-xs font-black text-[#E8580C] tracking-widest mb-4">
+              PRICING
+            </span>
+            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-[#1A1A2E]">
+              Simple, Transparent Plans
+            </h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 items-center">
+
+          <div className="grid md:grid-cols-3 gap-6 items-center">
 
             {/* Free */}
-            <div
-              className="p-10 rounded-3xl border-2"
-              style={{ backgroundColor: colors.white, borderColor: colors.border }}
-            >
-              <h4 className="text-xl font-bold mb-2" style={{ color: colors.deepNavy }}>Free</h4>
-              <p className="text-4xl font-bold mb-6" style={{ color: colors.deepNavy }}>
-                $0<span className="text-sm font-medium" style={{ color: colors.mutedGray }}>/month</span>
-              </p>
-              <ul className="space-y-4 mb-10">
-                {['Single account', 'Basic transactions', 'Email support', 'Real-time tracking'].map(item => (
-                  <li key={item} className="flex items-center text-sm font-medium" style={{ color: colors.nearBlack }}>
-                    <svg className="w-5 h-5 mr-3 flex-shrink-0" style={{ color: colors.deepRed }} fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
-                      <path d="M5 13l4 4L19 7" />
-                    </svg>
-                    {item}
+            <div className="bg-white border-2 border-[#EDE8E1] rounded-3xl p-10 hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+              <p className="text-xs font-black text-[#6C6C80] uppercase tracking-widest mb-2">Free</p>
+              <div className="flex items-baseline gap-1 mb-7">
+                <span className="text-5xl font-black text-[#1A1A2E] tracking-tight">$0</span>
+                <span className="text-base text-[#6C6C80]">/month</span>
+              </div>
+              <ul className="space-y-3.5 mb-9">
+                {['Single account', 'Basic transactions', 'Email support', 'Real-time tracking'].map(f => (
+                  <li key={f} className="flex items-center gap-3 text-sm text-[#0F0F1A]">
+                    <Check /> {f}
                   </li>
                 ))}
               </ul>
-              <button
-                className="w-full py-4 rounded-xl font-bold border-2 transition-all"
-                style={{ borderColor: colors.border, color: colors.deepNavy, backgroundColor: colors.offWhite }}
-              >
+              <button className="w-full py-3.5 border-2 border-[#EDE8E1] rounded-xl bg-[#FAF7F4] text-[#1A1A2E] font-bold text-sm hover:bg-[#EDE8E1] transition-colors duration-200">
                 Get Started
               </button>
             </div>
 
-            {/* Pro — Most Popular */}
-            <div
-              className="p-10 rounded-3xl border-4 relative shadow-2xl transform md:scale-105"
-              style={{ backgroundColor: colors.white, borderColor: colors.deepRed }}
-            >
-              <div
-                className="absolute top-0 right-10 -translate-y-1/2 px-4 py-1 rounded-full text-[10px] font-black text-white tracking-wider"
-                style={{ backgroundColor: colors.deepRed }}
-              >
+            {/* Pro */}
+            <div className="bg-white border-[3px] border-[#3D3535] rounded-3xl p-10 relative shadow-2xl scale-105 hover:scale-[1.06] transition-all duration-300">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#3D3535] text-white text-[10px] font-black tracking-widest px-5 py-1.5 rounded-full whitespace-nowrap">
                 MOST POPULAR
               </div>
-              <h4 className="text-xl font-bold mb-2" style={{ color: colors.deepNavy }}>Pro</h4>
-              <p className="text-4xl font-bold mb-6" style={{ color: colors.deepNavy }}>
-                $15<span className="text-sm font-medium" style={{ color: colors.mutedGray }}>/month</span>
-              </p>
-              <ul className="space-y-4 mb-10">
-                {['Up to 5 accounts', 'Unlimited transfers', 'Priority support', 'Multi-currency simulation'].map(item => (
-                  <li key={item} className="flex items-center text-sm font-medium" style={{ color: colors.nearBlack }}>
-                    <svg className="w-5 h-5 mr-3 flex-shrink-0" style={{ color: colors.deepRed }} fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
-                      <path d="M5 13l4 4L19 7" />
-                    </svg>
-                    {item}
+              <p className="text-xs font-black text-[#3D3535] uppercase tracking-widest mb-2">Pro</p>
+              <div className="flex items-baseline gap-1 mb-7">
+                <span className="text-5xl font-black text-[#1A1A2E] tracking-tight">$15</span>
+                <span className="text-base text-[#6C6C80]">/month</span>
+              </div>
+              <ul className="space-y-3.5 mb-9">
+                {['Up to 5 accounts', 'Unlimited transfers', 'Priority support', 'Multi-currency simulation'].map(f => (
+                  <li key={f} className="flex items-center gap-3 text-sm text-[#0F0F1A]">
+                    <Check /> {f}
                   </li>
                 ))}
               </ul>
-              <button
-                className="btn-primary w-full py-4 rounded-xl font-bold text-white shadow-lg"
-                style={{ backgroundColor: colors.deepRed }}
-              >
+              <button className="w-full py-3.5 bg-[#3D3535] text-white font-bold text-sm rounded-xl hover:bg-[#2A2A2A] transition-colors duration-200 shadow-lg shadow-[#3D3535]/25">
                 Get Started
               </button>
             </div>
 
             {/* Enterprise */}
-            <div
-              className="p-10 rounded-3xl border-2"
-              style={{ backgroundColor: colors.white, borderColor: colors.orange }}
-            >
-              <h4 className="text-xl font-bold mb-2" style={{ color: colors.deepNavy }}>Enterprise</h4>
-              <p className="text-4xl font-bold mb-6" style={{ color: colors.deepNavy }}>
-                $30<span className="text-sm font-medium" style={{ color: colors.mutedGray }}>/month</span>
-              </p>
-              <ul className="space-y-4 mb-10">
-                {['Unlimited accounts', 'API access', 'Dedicated manager', 'Custom analytics'].map(item => (
-                  <li key={item} className="flex items-center text-sm font-medium" style={{ color: colors.nearBlack }}>
-                    <svg className="w-5 h-5 mr-3 flex-shrink-0" style={{ color: colors.deepRed }} fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
-                      <path d="M5 13l4 4L19 7" />
-                    </svg>
-                    {item}
+            <div className="bg-white border-2 border-[#E8580C]/35 rounded-3xl p-10 hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+              <p className="text-xs font-black text-[#E8580C] uppercase tracking-widest mb-2">Enterprise</p>
+              <div className="flex items-baseline gap-1 mb-7">
+                <span className="text-5xl font-black text-[#1A1A2E] tracking-tight">$30</span>
+                <span className="text-base text-[#6C6C80]">/month</span>
+              </div>
+              <ul className="space-y-3.5 mb-9">
+                {['Unlimited accounts', 'API access', 'Dedicated manager', 'Custom analytics'].map(f => (
+                  <li key={f} className="flex items-center gap-3 text-sm text-[#0F0F1A]">
+                    <Check color="#E8580C" /> {f}
                   </li>
                 ))}
               </ul>
-              <button
-                className="w-full py-4 rounded-xl font-bold border-2 transition-all hover:opacity-90"
-                style={{ borderColor: colors.orange, color: colors.orange, backgroundColor: 'transparent' }}
-              >
+              <button className="w-full py-3.5 border-2 border-[#E8580C] text-[#E8580C] font-bold text-sm rounded-xl hover:bg-[#E8580C] hover:text-white transition-all duration-200 bg-transparent">
                 Contact Us
               </button>
             </div>
@@ -491,40 +476,37 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* ── 8. FAQ SECTION ── */}
-      <section id="faq" className="py-24 px-6" style={{ backgroundColor: colors.offWhite }}>
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="text-xs font-bold tracking-widest" style={{ color: colors.orange }}>FAQ</span>
-            <h2 className="text-4xl font-bold mt-4" style={{ color: colors.deepNavy }}>Still Have Questions?</h2>
+      {/* ══════════════════════════════════════
+          FAQ
+      ══════════════════════════════════════ */}
+      <section id="faq" className="bg-[#FAF7F4] py-24 px-8">
+        <div className="w-full max-w-4xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#E8580C]/08 border border-[#E8580C]/20 text-xs font-black text-[#E8580C] tracking-widest mb-4">
+              FAQ
+            </span>
+            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-[#1A1A2E]">
+              Still Have Questions?
+            </h2>
           </div>
-          <div className="space-y-4">
+
+          <div className="space-y-3">
             {faqs.map((faq, i) => (
-              <div
-                key={i}
-                className="rounded-xl overflow-hidden shadow-sm"
-                style={{ backgroundColor: colors.white, border: `1px solid ${colors.border}` }}
-              >
+              <div key={i} className={`bg-white border rounded-2xl overflow-hidden transition-colors duration-200 ${openFaq === i ? 'border-[#3D3535]/30' : 'border-[#EDE8E1] hover:border-[#3D3535]/20'}`}>
                 <button
-                  className="w-full p-6 text-left flex justify-between items-center transition-colors"
-                  style={{ backgroundColor: 'transparent' }}
-                  onClick={() => toggleFaq(i)}
+                  className="w-full px-6 py-5 flex justify-between items-center gap-4 text-left bg-transparent"
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 >
-                  <span className="font-bold text-lg pr-4" style={{ color: colors.deepNavy }}>{faq.q}</span>
-                  <svg
-                    className={`w-6 h-6 flex-shrink-0 transition-transform duration-300 ${openFaq === i ? 'rotate-180' : ''}`}
-                    style={{ color: colors.deepRed }}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openFaq === i ? 'max-h-40' : 'max-h-0'}`}>
-                  <div className="px-6 pb-6 font-medium leading-relaxed" style={{ color: colors.mutedGray }}>
-                    {faq.a}
+                  <span className="text-base font-semibold text-[#1A1A2E] flex-1">{faq.q}</span>
+                  <div className={`faq-icon-rotate w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${openFaq === i ? 'open' : 'bg-[#3D3535]/08'}`}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                      stroke={openFaq === i ? '#fff' : '#3D3535'} strokeWidth="2.5" strokeLinecap="round">
+                      <path d="M19 9l-7 7-7-7" />
+                    </svg>
                   </div>
+                </button>
+                <div className={`overflow-hidden transition-all duration-300 ease-in-out ${openFaq === i ? 'max-h-40' : 'max-h-0'}`}>
+                  <div className="px-6 pb-5 text-[15px] text-[#6C6C80] leading-relaxed">{faq.a}</div>
                 </div>
               </div>
             ))}
@@ -532,95 +514,92 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* ── 9. CTA BANNER ── */}
-      <section className="py-24 px-6" style={{ backgroundColor: colors.cream }}>
-        <div
-          className="max-w-7xl mx-auto rounded-3xl p-16 text-center text-white shadow-2xl relative overflow-hidden"
-          style={{ backgroundColor: colors.deepRed }}
-        >
-          <div className="absolute top-0 left-0 w-64 h-64 rounded-full -translate-x-1/2 -translate-y-1/2" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }} />
-          <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full translate-x-1/3 translate-y-1/3" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }} />
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 relative z-10" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Ready to Start Exchange with VaultX?
-          </h2>
-          <p className="text-xl mb-12 relative z-10 font-medium" style={{ color: colors.novaBlush }}>
-            Join 10,000+ users practicing smarter finance every day.
-          </p>
-          <Link
-            to="/login"
-            className="inline-block px-12 py-5 font-black rounded-2xl transition-transform hover:scale-105 shadow-xl relative z-10"
-            style={{ backgroundColor: colors.white, color: colors.deepRed }}
-          >
-            Open Free Account →
-          </Link>
+      {/* ══════════════════════════════════════
+          CTA BANNER
+      ══════════════════════════════════════ */}
+      <section className="bg-[#F5F0EB] py-20 px-8">
+        <div className="w-full">
+          <div className="bg-[#3D3535] rounded-3xl px-10 py-20 text-center relative overflow-hidden">
+            {/* Decorative circles */}
+            <div className="absolute -top-16 -left-16 w-64 h-64 rounded-full bg-white/5" />
+            <div className="absolute -bottom-20 -right-10 w-80 h-80 rounded-full bg-white/5" />
+            <div className="absolute top-1/2 left-[12%] -translate-y-1/2 w-28 h-28 rounded-full bg-[#F9C74F]/08" />
+
+            <div className="relative z-10">
+              <p className="text-[11px] font-black text-white/80 tracking-[0.2em] uppercase mb-4">
+                START TODAY — IT'S FREE
+              </p>
+              <h2 className="font-playfair text-4xl md:text-5xl font-bold text-white mb-5 leading-tight">
+                Ready to Start Banking<br />Smarter with VaultX?
+              </h2>
+              <p className="text-lg text-white/80 mb-10 max-w-md mx-auto leading-relaxed">
+                Join 10,000+ users practising smarter finance every single day.
+              </p>
+              <Link to="/login"
+                className="inline-flex items-center gap-2 bg-white text-[#3D3535] font-black text-base px-10 py-4 rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-200 shadow-xl">
+                Open Free Account →
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ── 10. FOOTER — light cream, NO dark background ── */}
-      <footer className="py-20 px-6" style={{ backgroundColor: colors.footerBg, borderTop: `1px solid ${colors.border}` }}>
-        <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
+      {/* ══════════════════════════════════════
+          FOOTER
+      ══════════════════════════════════════ */}
+      <footer className="bg-[#EDE8E1] border-t border-[#EDE8E1] pt-16 pb-10 px-8">
+        <div className="w-full">
+          <div className="grid md:grid-cols-4 gap-12 mb-12">
 
-          {/* Brand */}
-          <div className="space-y-6">
-            <div className="flex items-center space-x-1">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z" fill={colors.deepRed} />
-                <path d="M12 7V17M7 12H17" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-              <div className="flex flex-col leading-none">
-                <div className="flex items-baseline">
-                  <span className="text-xl font-black italic tracking-tighter" style={{ color: colors.deepNavy }}>{brand.name}</span>
-                  <span className="text-2xl font-black italic tracking-tighter" style={{ color: colors.deepRed }}>{brand.suffix}</span>
-                </div>
-                <span className="text-[6px] font-black tracking-[0.3em] ml-0.5" style={{ color: colors.mutedGray }}>{brand.sub}</span>
+            {/* Brand */}
+            <div>
+              <Logo />
+              <p className="text-sm text-[#6C6C80] leading-relaxed mt-5 mb-6 max-w-[240px]">
+                The world's leading banking simulation platform for students, developers, and financial enthusiasts.
+              </p>
+              <div className="flex gap-2.5">
+                {[['T', 'Twitter'], ['G', 'GitHub'], ['L', 'LinkedIn'], ['I', 'Instagram']].map(([l, name]) => (
+                  <a key={name} href="#" title={name}
+                    className="w-9 h-9 rounded-xl bg-white border border-[#EDE8E1] flex items-center justify-center text-xs font-bold text-[#6C6C80] hover:bg-[#3D3535] hover:border-[#3D3535] hover:text-white hover:-translate-y-0.5 transition-all duration-200">
+                    {l}
+                  </a>
+                ))}
               </div>
             </div>
-            <p className="text-sm leading-relaxed" style={{ color: colors.mutedGray }}>
-              The world's leading banking simulation platform for students, developers, and financial enthusiasts.
+
+            {/* Link columns */}
+            {[
+              { t: 'Product', l: ['Features', 'Pricing', 'Security', 'Simulation Engine'] },
+              { t: 'Company', l: ['About Us', 'Careers', 'Press', 'Privacy Policy'] },
+              { t: 'Support', l: ['FAQ', 'Documentation', 'Contact', 'System Status'] },
+            ].map(col => (
+              <div key={col.t}>
+                <p className="text-xs font-black text-[#1A1A2E] uppercase tracking-widest mb-5">{col.t}</p>
+                <ul className="space-y-3">
+                  {col.l.map(link => (
+                    <li key={link}>
+                      <a href="#" className="text-sm font-medium text-[#6C6C80] hover:text-[#3D3535] transition-colors duration-200">
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom bar */}
+          <div className="border-t border-[#EDE8E1] pt-7 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-sm font-medium text-[#6C6C80]">
+              © 2026 VaultX Exchange. All rights reserved.
             </p>
-            {/* Social Icons */}
-            <div className="flex space-x-4">
-              {['twitter', 'github', 'linkedin', 'instagram'].map(s => (
-                <a key={s} href="#" className="social-icon" style={{ color: colors.mutedGray }}>
-                  <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z" />
-                  </svg>
+            <div className="flex gap-6">
+              {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map(l => (
+                <a key={l} href="#" className="text-sm font-medium text-[#6C6C80] hover:text-[#3D3535] transition-colors duration-200">
+                  {l}
                 </a>
               ))}
             </div>
-          </div>
-
-          {/* Link Columns */}
-          {[
-            { t: 'Product', l: ['Features', 'Pricing', 'Security', 'Simulation Engine'] },
-            { t: 'Company', l: ['About Us', 'Careers', 'Press', 'Privacy Policy'] },
-            { t: 'Support', l: ['FAQ', 'Documentation', 'Contact', 'System Status'] }
-          ].map(col => (
-            <div key={col.t} className="space-y-6">
-              <h4 className="font-bold text-lg" style={{ color: colors.deepNavy }}>{col.t}</h4>
-              <ul className="space-y-4">
-                {col.l.map(link => (
-                  <li key={link}>
-                    <a href="#" className="footer-link text-sm font-medium" style={{ color: colors.mutedGray }}>{link}</a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        {/* Bottom Bar */}
-        <div
-          className="max-w-7xl mx-auto mt-16 pt-8 flex flex-col md:flex-row justify-between items-center"
-          style={{ borderTop: `1px solid ${colors.border}` }}
-        >
-          <p className="text-xs font-bold uppercase tracking-widest mb-4 md:mb-0" style={{ color: colors.mutedGray }}>
-            © 2026 VaultX Exchange. All rights reserved.
-          </p>
-          <div className="flex gap-6 text-xs" style={{ color: colors.mutedGray }}>
-            <a href="#" className="footer-link">Privacy Policy</a>
-            <a href="#" className="footer-link">Terms of Service</a>
-            <a href="#" className="footer-link">Cookie Policy</a>
           </div>
         </div>
       </footer>
