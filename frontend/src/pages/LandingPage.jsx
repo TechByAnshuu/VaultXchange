@@ -34,8 +34,8 @@ const LandingPage = () => {
       title: 'Multiple Accounts',
       desc: 'Open and manage multiple bank accounts from one place with distinct balances and complete transaction histories.',
       icon: 'M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z',
-      iconColor: 'text-[#C0392B]',
-      iconBg: 'bg-[#C0392B]/10',
+      iconColor: 'text-[#3D3535]',
+      iconBg: 'bg-[#3D3535]/10',
     },
     {
       title: 'Instant Transfers',
@@ -60,16 +60,16 @@ const LandingPage = () => {
   ];
 
   const stats = [
-    { n: '$2B+', l: 'Transactions Processed', emoji: '💳' },
-    { n: '10K+', l: 'Active Accounts', emoji: '👥' },
-    { n: '99.9%', l: 'System Uptime', emoji: '⚡' },
-    { n: '24/7', l: 'Customer Support', emoji: '🛡️' },
+    { n: '$2B+', l: 'Transactions Processed', emoji: <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg> },
+    { n: '10K+', l: 'Active Accounts', emoji: <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg> },
+    { n: '99.9%', l: 'System Uptime', emoji: <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
+    { n: '24/7', l: 'Customer Support', emoji: <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg> },
   ];
 
   // ── Logo ──────────────────────────────────
   const Logo = ({ large = false }) => (
     <div className="flex items-center gap-2.5">
-      <div className={`${large ? 'w-10 h-10' : 'w-9 h-9'} rounded-xl bg-[#C0392B] flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#C0392B]/30`}>
+      <div className={`${large ? 'w-10 h-10' : 'w-9 h-9'} rounded-xl bg-[#3D3535] flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#3D3535]/30`}>
         <svg width={large ? 22 : 18} height={large ? 22 : 18} viewBox="0 0 24 24" fill="none">
           <path d="M9 12L11 14L15 10M12 2L3 7V13C3 17.97 7.02 22.63 12 24C16.98 22.63 21 17.97 21 13V7L12 2Z"
             stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -78,7 +78,7 @@ const LandingPage = () => {
       <div className="flex flex-col leading-none">
         <div className="flex items-baseline">
           <span className={`${large ? 'text-2xl' : 'text-xl'} font-black italic tracking-tight text-[#1A1A2E]`}>{brand.name}</span>
-          <span className={`${large ? 'text-3xl' : 'text-2xl'} font-black italic tracking-tight text-[#C0392B]`}>{brand.suffix}</span>
+          <span className={`${large ? 'text-3xl' : 'text-2xl'} font-black italic tracking-tight text-[#3D3535]`}>{brand.suffix}</span>
         </div>
         <span className="text-[7px] font-black tracking-[0.3em] text-[#6C6C80] mt-0.5">{brand.sub}</span>
       </div>
@@ -86,7 +86,7 @@ const LandingPage = () => {
   );
 
   // ── Check icon ────────────────────────────
-  const Check = ({ color = '#C0392B' }) => (
+  const Check = ({ color = '#3D3535' }) => (
     <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${color}18` }}>
       <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
         <path d="M2 6l3 3 5-5" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -100,13 +100,13 @@ const LandingPage = () => {
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700;800;900&display=swap');
         .font-playfair { font-family: 'Playfair Display', serif; }
         .nav-link-underline { position: relative; padding-bottom: 3px; }
-        .nav-link-underline::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: #C0392B; transition: width .25s ease; border-radius: 2px; }
+        .nav-link-underline::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: #3D3535; transition: width .25s ease; border-radius: 2px; }
         .nav-link-underline:hover::after { width: 100%; }
         .feature-card-hover { position: relative; overflow: hidden; }
-        .feature-card-hover::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #C0392B; transform: scaleX(0); transform-origin: left; transition: transform .3s ease; }
+        .feature-card-hover::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #3D3535; transform: scaleX(0); transform-origin: left; transition: transform .3s ease; }
         .feature-card-hover:hover::before { transform: scaleX(1); }
         .faq-icon-rotate { transition: all .3s ease; }
-        .faq-icon-rotate.open { background: #C0392B !important; transform: rotate(180deg); }
+        .faq-icon-rotate.open { background: #3D3535 !important; transform: rotate(180deg); }
       `}</style>
 
       {/* ══════════════════════════════════════
@@ -120,7 +120,7 @@ const LandingPage = () => {
           <div className="hidden md:flex items-center gap-9">
             {navLinks.map(l => (
               <a key={l.name} href={l.href}
-                className="nav-link-underline text-[#1A1A2E] hover:text-[#C0392B] font-medium text-sm transition-colors duration-200">
+                className="nav-link-underline text-[#1A1A2E] hover:text-[#3D3535] font-medium text-sm transition-colors duration-200">
                 {l.name}
               </a>
             ))}
@@ -129,11 +129,11 @@ const LandingPage = () => {
           {/* Desktop buttons */}
           <div className="hidden md:flex items-center gap-3">
             <Link to="/login"
-              className="px-5 py-2.5 border-2 border-[#C0392B] text-[#C0392B] font-semibold text-sm rounded-xl hover:bg-[#C0392B] hover:text-white transition-all duration-200">
+              className="px-5 py-2.5 border-2 border-[#3D3535] text-[#3D3535] font-semibold text-sm rounded-xl hover:bg-[#3D3535] hover:text-white transition-all duration-200">
               Log In
             </Link>
             <Link to="/login"
-              className="px-5 py-2.5 bg-[#C0392B] text-white font-semibold text-sm rounded-xl hover:bg-[#E84040] transition-all duration-200 shadow-lg shadow-[#C0392B]/25">
+              className="px-5 py-2.5 bg-[#3D3535] text-white font-semibold text-sm rounded-xl hover:bg-[#2A2A2A] transition-all duration-200 shadow-lg shadow-[#3D3535]/25">
               Get Started
             </Link>
           </div>
@@ -157,8 +157,8 @@ const LandingPage = () => {
               </a>
             ))}
             <div className="flex gap-3 pt-2">
-              <Link to="/login" className="flex-1 py-3 border-2 border-[#C0392B] text-[#C0392B] font-bold text-sm rounded-xl text-center">Log In</Link>
-              <Link to="/login" className="flex-1 py-3 bg-[#C0392B] text-white font-bold text-sm rounded-xl text-center">Get Started</Link>
+              <Link to="/login" className="flex-1 py-3 border-2 border-[#3D3535] text-[#3D3535] font-bold text-sm rounded-xl text-center">Log In</Link>
+              <Link to="/login" className="flex-1 py-3 bg-[#3D3535] text-white font-bold text-sm rounded-xl text-center">Get Started</Link>
             </div>
           </div>
         )}
@@ -180,7 +180,7 @@ const LandingPage = () => {
 
               <h1 className="font-playfair text-5xl md:text-6xl font-bold text-[#1A1A2E] leading-[1.15]">
                 Smarter Banking<br />
-                <em className="text-[#C0392B] not-italic font-bold" style={{ fontStyle: 'italic' }}>for Everyone</em>
+                <em className="text-[#3D3535] not-italic font-bold" style={{ fontStyle: 'italic' }}>for Everyone</em>
               </h1>
 
               <p className="text-lg text-[#6C6C80] leading-relaxed max-w-lg">
@@ -189,10 +189,10 @@ const LandingPage = () => {
 
               <div className="flex flex-wrap gap-3">
                 <Link to="/login"
-                  className="px-8 py-4 bg-[#C0392B] text-white font-bold rounded-xl hover:bg-[#E84040] transition-all duration-200 shadow-xl shadow-[#C0392B]/25 hover:-translate-y-0.5">
+                  className="px-8 py-4 bg-[#3D3535] text-white font-bold rounded-xl hover:bg-[#2A2A2A] transition-all duration-200 shadow-xl shadow-[#3D3535]/25 hover:-translate-y-0.5">
                   Get Started →
                 </Link>
-                <button className="px-8 py-4 border-2 border-[#C0392B] text-[#C0392B] font-bold rounded-xl hover:bg-[#C0392B] hover:text-white transition-all duration-200 bg-white">
+                <button className="px-8 py-4 border-2 border-[#3D3535] text-[#3D3535] font-bold rounded-xl hover:bg-[#3D3535] hover:text-white transition-all duration-200 bg-white">
                   Watch Demo
                 </button>
               </div>
@@ -210,18 +210,18 @@ const LandingPage = () => {
             {/* Right — Hero card */}
             <div className="relative hidden md:block p-5">
               {/* Background blobs */}
-              <div className="absolute -top-4 -right-4 w-full h-full rounded-3xl bg-[#F2C4CE] opacity-40 z-0" />
+              <div className="absolute -top-4 -right-4 w-full h-full rounded-3xl bg-[#DDD8D0] opacity-40 z-0" />
               <div className="absolute -bottom-2 left-6 w-3/4 h-3/4 rounded-3xl bg-[#F9C74F]/10 z-0" />
 
               {/* Card */}
-              <div className="relative z-10 bg-white rounded-3xl p-8 shadow-2xl border-t-[5px] border-[#C0392B] rotate-1 hover:rotate-0 transition-transform duration-500">
+              <div className="relative z-10 bg-white rounded-3xl p-8 shadow-2xl border-t-[5px] border-[#3D3535] rotate-1 hover:rotate-0 transition-transform duration-500">
                 <div className="flex justify-between items-center mb-7">
                   <div className="flex items-center gap-2">
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#C0392B]" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#3D3535]" />
                     <span className="text-[11px] font-black tracking-[0.15em] text-[#6C6C80]">VAULTX CARD</span>
                   </div>
                   <svg width="44" height="26" viewBox="0 0 44 26" fill="none">
-                    <circle cx="14" cy="13" r="13" fill="#C0392B" fillOpacity="0.85" />
+                    <circle cx="14" cy="13" r="13" fill="#3D3535" fillOpacity="0.85" />
                     <circle cx="30" cy="13" r="13" fill="#E8580C" fillOpacity="0.75" />
                   </svg>
                 </div>
@@ -248,7 +248,7 @@ const LandingPage = () => {
                   <p className="text-[11px] font-bold text-[#6C6C80] tracking-widest uppercase mb-3">Recent Activity</p>
                   {[
                     { label: 'Deposit from Alice', amount: '+$500.00', color: 'text-emerald-500' },
-                    { label: 'Transfer to Bob', amount: '-$150.00', color: 'text-[#C0392B]' },
+                    { label: 'Transfer to Bob', amount: '-$150.00', color: 'text-[#3D3535]' },
                   ].map((tx, i) => (
                     <div key={i} className={`flex justify-between items-center py-2 ${i === 0 ? 'border-b border-[#EDE8E1]' : ''}`}>
                       <span className="text-sm text-[#6C6C80] font-medium">{tx.label}</span>
@@ -265,15 +265,15 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           STATS BAR
       ══════════════════════════════════════ */}
-      <div className="bg-[#C0392B]">
+      <div className="bg-[#3D3535]">
         <div className="w-full px-8">
           <div className="flex flex-wrap">
             {stats.map((s, i) => (
               <div key={s.l}
                 className={`flex-1 min-w-[180px] py-9 px-6 text-center ${i < stats.length - 1 ? 'border-r border-white/10' : ''}`}>
-                <div className="text-2xl mb-2">{s.emoji}</div>
+                <div className="flex justify-center text-[#F9C74F] mb-3">{s.emoji}</div>
                 <div className="text-4xl font-extrabold text-white mb-1 tracking-tight">{s.n}</div>
-                <div className="text-sm font-medium text-[#F2C4CE]/90">{s.l}</div>
+                <div className="text-sm font-medium text-white/80">{s.l}</div>
               </div>
             ))}
           </div>
@@ -297,16 +297,16 @@ const LandingPage = () => {
           <div className="grid md:grid-cols-3 gap-6">
             {features.map(f => (
               <div key={f.title}
-                className="feature-card-hover bg-white border border-[#EDE8E1] rounded-2xl p-9 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#C0392B]/10 hover:border-[#C0392B]/20 transition-all duration-300">
-                <div className={`w-14 h-14 ${f.iconBg} rounded-2xl flex items-center justify-center mb-6`}>
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" className={f.iconColor}
+                className="feature-card-hover bg-white border border-[#EDE8E1] rounded-2xl p-9 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#3D3535]/10 hover:border-[#3D3535]/20 transition-all duration-300">
+                <div className={`w-14 h-14 ${f.iconBg.replace('bg-[#3D3535]/10', 'bg-[#3D3535]/10')} rounded-2xl flex items-center justify-center mb-6`}>
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" className={f.iconColor.replace('text-[#3D3535]', 'text-[#3D3535]')}
                     stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d={f.icon} />
                   </svg>
                 </div>
                 <h4 className="text-xl font-bold text-[#1A1A2E] mb-3">{f.title}</h4>
                 <p className="text-[#6C6C80] leading-relaxed mb-6">{f.desc}</p>
-                <a href="#" className="inline-flex items-center gap-1.5 text-[#C0392B] font-bold text-sm hover:gap-3 transition-all duration-200">
+                <a href="#" className="inline-flex items-center gap-1.5 text-[#3D3535] font-bold text-sm hover:gap-3 transition-all duration-200">
                   Learn More →
                 </a>
               </div>
@@ -321,7 +321,7 @@ const LandingPage = () => {
       <section id="how-it-works" className="bg-[#F5F0EB] py-24 px-8">
         <div className="w-full">
           <div className="text-center mb-20">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-[#C0392B]/06 border border-[#C0392B]/15 text-xs font-black text-[#C0392B] tracking-widest mb-4">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#3D3535]/06 border border-[#3D3535]/15 text-xs font-black text-[#3D3535] tracking-widest mb-4">
               SIMPLE PROCESS
             </span>
             <h2 className="font-playfair text-4xl md:text-5xl font-bold text-[#1A1A2E]">
@@ -331,16 +331,16 @@ const LandingPage = () => {
 
           <div className="flex flex-col md:flex-row items-start gap-0">
             {[
-              { n: '01', t: 'Create Your Account', d: 'Click Get Started and sign up for your free simulator profile in under 60 seconds.', emoji: '👤' },
-              { n: '02', t: 'Add Your Funds', d: 'Deposit virtual currency into your new account to begin your financial simulation journey.', emoji: '💰' },
-              { n: '03', t: 'Start Banking', d: 'Transfer, withdraw, track history, and manage your entire financial world with ease.', emoji: '🚀' },
+              { n: '01', t: 'Create Your Account', d: 'Click Get Started and sign up for your free simulator profile in under 60 seconds.', emoji: <svg width="36" height="36" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg> },
+              { n: '02', t: 'Add Your Funds', d: 'Deposit virtual currency into your new account to begin your financial simulation journey.', emoji: <svg width="36" height="36" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+              { n: '03', t: 'Start Banking', d: 'Transfer, withdraw, track history, and manage your entire financial world with ease.', emoji: <svg width="36" height="36" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13.5 4.5L21 3m0 0l-1.5 7.5M21 3l-6.75 6.75M12 8.25L4.5 15m0 0l-1.5 3 1.5-1.5zm0 0l1.5-1.5 6.75-6.75M8.25 12l-1.5 6M8.25 12l6-1.5" /></svg> },
             ].map((step, i) => (
               <React.Fragment key={step.n}>
                 <div className="flex-1 text-center px-6">
-                  <div className="w-20 h-20 rounded-full border-2 border-[#C0392B] bg-white flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#C0392B]/12">
-                    <span className="font-playfair text-2xl font-black text-[#C0392B] italic">{step.n}</span>
+                  <div className="w-20 h-20 rounded-full border-2 border-[#3D3535] bg-white flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#3D3535]/12">
+                    <span className="font-playfair text-2xl font-black text-[#3D3535] italic">{step.n}</span>
                   </div>
-                  <div className="text-3xl mb-3">{step.emoji}</div>
+                  <div className="flex justify-center text-[#3D3535] mb-4">{step.emoji}</div>
                   <h4 className="text-lg font-bold text-[#1A1A2E] mb-2">{step.t}</h4>
                   <p className="text-sm text-[#6C6C80] leading-relaxed max-w-[220px] mx-auto">{step.d}</p>
                 </div>
@@ -358,13 +358,13 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           TESTIMONIALS
       ══════════════════════════════════════ */}
-      <section className="bg-[#F2C4CE] py-24 px-8">
+      <section className="bg-[#2C1F1F] py-24 px-8">
         <div className="w-full">
           <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-[#E8580C]/10 border border-[#E8580C]/20 text-xs font-black text-[#E8580C] tracking-widest mb-4">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-black text-white/80 tracking-widest mb-4">
               TESTIMONIALS
             </span>
-            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-[#1A1A2E]">
+            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-white">
               What Our Users Say
             </h2>
           </div>
@@ -372,7 +372,7 @@ const LandingPage = () => {
           <div className="grid md:grid-cols-3 gap-6">
             {testimonials.map((t, i) => (
               <div key={i}
-                className="bg-white rounded-2xl p-9 shadow-lg hover:-translate-y-1 hover:shadow-2xl transition-all duration-300">
+                className="bg-white/5 border border-white/10 rounded-2xl p-9 shadow-lg hover:-translate-y-1 hover:bg-white/10 hover:border-white/20 transition-all duration-300">
                 <div className="flex gap-1 mb-5">
                   {[1, 2, 3, 4, 5].map(s => (
                     <svg key={s} width="18" height="18" fill="#F9C74F" viewBox="0 0 20 20">
@@ -380,14 +380,14 @@ const LandingPage = () => {
                     </svg>
                   ))}
                 </div>
-                <p className="text-[#0F0F1A] leading-relaxed italic mb-6 text-[15px]">"{t.quote}"</p>
-                <div className="flex items-center gap-3 pt-5 border-t border-[#EDE8E1]">
-                  <div className="w-11 h-11 rounded-full bg-[#C0392B] flex items-center justify-center text-white text-sm font-black flex-shrink-0">
+                <p className="text-white/90 leading-relaxed italic mb-6 text-[15px]">"{t.quote}"</p>
+                <div className="flex items-center gap-3 pt-5 border-t border-white/10">
+                  <div className="w-11 h-11 rounded-full bg-[#3D3535] flex items-center justify-center text-white text-sm font-black flex-shrink-0">
                     {t.name.split(' ').map(w => w[0]).join('')}
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-[#1A1A2E]">{t.name}</p>
-                    <p className="text-xs font-semibold text-[#6C6C80] uppercase tracking-widest">{t.role}</p>
+                    <p className="text-sm font-bold text-white">{t.name}</p>
+                    <p className="text-xs font-semibold text-white/50 uppercase tracking-widest">{t.role}</p>
                   </div>
                 </div>
               </div>
@@ -432,11 +432,11 @@ const LandingPage = () => {
             </div>
 
             {/* Pro */}
-            <div className="bg-white border-[3px] border-[#C0392B] rounded-3xl p-10 relative shadow-2xl scale-105 hover:scale-[1.06] transition-all duration-300">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#C0392B] text-white text-[10px] font-black tracking-widest px-5 py-1.5 rounded-full whitespace-nowrap">
+            <div className="bg-white border-[3px] border-[#3D3535] rounded-3xl p-10 relative shadow-2xl scale-105 hover:scale-[1.06] transition-all duration-300">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#3D3535] text-white text-[10px] font-black tracking-widest px-5 py-1.5 rounded-full whitespace-nowrap">
                 MOST POPULAR
               </div>
-              <p className="text-xs font-black text-[#C0392B] uppercase tracking-widest mb-2">Pro</p>
+              <p className="text-xs font-black text-[#3D3535] uppercase tracking-widest mb-2">Pro</p>
               <div className="flex items-baseline gap-1 mb-7">
                 <span className="text-5xl font-black text-[#1A1A2E] tracking-tight">$15</span>
                 <span className="text-base text-[#6C6C80]">/month</span>
@@ -448,7 +448,7 @@ const LandingPage = () => {
                   </li>
                 ))}
               </ul>
-              <button className="w-full py-3.5 bg-[#C0392B] text-white font-bold text-sm rounded-xl hover:bg-[#E84040] transition-colors duration-200 shadow-lg shadow-[#C0392B]/25">
+              <button className="w-full py-3.5 bg-[#3D3535] text-white font-bold text-sm rounded-xl hover:bg-[#2A2A2A] transition-colors duration-200 shadow-lg shadow-[#3D3535]/25">
                 Get Started
               </button>
             </div>
@@ -492,15 +492,15 @@ const LandingPage = () => {
 
           <div className="space-y-3">
             {faqs.map((faq, i) => (
-              <div key={i} className={`bg-white border rounded-2xl overflow-hidden transition-colors duration-200 ${openFaq === i ? 'border-[#C0392B]/30' : 'border-[#EDE8E1] hover:border-[#C0392B]/20'}`}>
+              <div key={i} className={`bg-white border rounded-2xl overflow-hidden transition-colors duration-200 ${openFaq === i ? 'border-[#3D3535]/30' : 'border-[#EDE8E1] hover:border-[#3D3535]/20'}`}>
                 <button
                   className="w-full px-6 py-5 flex justify-between items-center gap-4 text-left bg-transparent"
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 >
                   <span className="text-base font-semibold text-[#1A1A2E] flex-1">{faq.q}</span>
-                  <div className={`faq-icon-rotate w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${openFaq === i ? 'open' : 'bg-[#C0392B]/08'}`}>
+                  <div className={`faq-icon-rotate w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${openFaq === i ? 'open' : 'bg-[#3D3535]/08'}`}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                      stroke={openFaq === i ? '#fff' : '#C0392B'} strokeWidth="2.5" strokeLinecap="round">
+                      stroke={openFaq === i ? '#fff' : '#3D3535'} strokeWidth="2.5" strokeLinecap="round">
                       <path d="M19 9l-7 7-7-7" />
                     </svg>
                   </div>
@@ -519,24 +519,24 @@ const LandingPage = () => {
       ══════════════════════════════════════ */}
       <section className="bg-[#F5F0EB] py-20 px-8">
         <div className="w-full">
-          <div className="bg-[#C0392B] rounded-3xl px-10 py-20 text-center relative overflow-hidden">
+          <div className="bg-[#3D3535] rounded-3xl px-10 py-20 text-center relative overflow-hidden">
             {/* Decorative circles */}
             <div className="absolute -top-16 -left-16 w-64 h-64 rounded-full bg-white/5" />
             <div className="absolute -bottom-20 -right-10 w-80 h-80 rounded-full bg-white/5" />
             <div className="absolute top-1/2 left-[12%] -translate-y-1/2 w-28 h-28 rounded-full bg-[#F9C74F]/08" />
 
             <div className="relative z-10">
-              <p className="text-[11px] font-black text-[#F2C4CE]/85 tracking-[0.2em] uppercase mb-4">
+              <p className="text-[11px] font-black text-white/80 tracking-[0.2em] uppercase mb-4">
                 START TODAY — IT'S FREE
               </p>
               <h2 className="font-playfair text-4xl md:text-5xl font-bold text-white mb-5 leading-tight">
                 Ready to Start Banking<br />Smarter with VaultX?
               </h2>
-              <p className="text-lg text-[#F2C4CE]/90 mb-10 max-w-md mx-auto leading-relaxed">
+              <p className="text-lg text-white/80 mb-10 max-w-md mx-auto leading-relaxed">
                 Join 10,000+ users practising smarter finance every single day.
               </p>
               <Link to="/login"
-                className="inline-flex items-center gap-2 bg-white text-[#C0392B] font-black text-base px-10 py-4 rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-200 shadow-xl">
+                className="inline-flex items-center gap-2 bg-white text-[#3D3535] font-black text-base px-10 py-4 rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-200 shadow-xl">
                 Open Free Account →
               </Link>
             </div>
@@ -560,7 +560,7 @@ const LandingPage = () => {
               <div className="flex gap-2.5">
                 {[['T', 'Twitter'], ['G', 'GitHub'], ['L', 'LinkedIn'], ['I', 'Instagram']].map(([l, name]) => (
                   <a key={name} href="#" title={name}
-                    className="w-9 h-9 rounded-xl bg-white border border-[#EDE8E1] flex items-center justify-center text-xs font-bold text-[#6C6C80] hover:bg-[#C0392B] hover:border-[#C0392B] hover:text-white hover:-translate-y-0.5 transition-all duration-200">
+                    className="w-9 h-9 rounded-xl bg-white border border-[#EDE8E1] flex items-center justify-center text-xs font-bold text-[#6C6C80] hover:bg-[#3D3535] hover:border-[#3D3535] hover:text-white hover:-translate-y-0.5 transition-all duration-200">
                     {l}
                   </a>
                 ))}
@@ -578,7 +578,7 @@ const LandingPage = () => {
                 <ul className="space-y-3">
                   {col.l.map(link => (
                     <li key={link}>
-                      <a href="#" className="text-sm font-medium text-[#6C6C80] hover:text-[#C0392B] transition-colors duration-200">
+                      <a href="#" className="text-sm font-medium text-[#6C6C80] hover:text-[#3D3535] transition-colors duration-200">
                         {link}
                       </a>
                     </li>
@@ -595,7 +595,7 @@ const LandingPage = () => {
             </p>
             <div className="flex gap-6">
               {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map(l => (
-                <a key={l} href="#" className="text-sm font-medium text-[#6C6C80] hover:text-[#C0392B] transition-colors duration-200">
+                <a key={l} href="#" className="text-sm font-medium text-[#6C6C80] hover:text-[#3D3535] transition-colors duration-200">
                   {l}
                 </a>
               ))}

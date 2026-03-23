@@ -17,17 +17,19 @@ function AppNavbar() {
   return (
     <header className="glass-header">
       {/* Logo */}
-      <Link to="/dashboard" style={{ textDecoration: 'none' }} className="flex items-center space-x-1">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-          <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z" fill="#C0392B" />
-          <path d="M12 7V17M7 12H17" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
+      <Link to="/dashboard" style={{ textDecoration: 'none' }} className="flex items-center gap-2.5">
+        <div className="w-9 h-9 rounded-xl bg-[#3D3535] flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#3D3535]/30">
+          <svg width={18} height={18} viewBox="0 0 24 24" fill="none">
+            <path d="M9 12L11 14L15 10M12 2L3 7V13C3 17.97 7.02 22.63 12 24C16.98 22.63 21 17.97 21 13V7L12 2Z"
+              stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
         <div className="flex flex-col leading-none">
           <div className="flex items-baseline">
-            <span className="text-xl font-black italic tracking-tighter" style={{ color: '#1A1A2E' }}>Vault</span>
-            <span className="text-2xl font-black italic tracking-tighter" style={{ color: '#C0392B' }}>X</span>
+            <span className="text-xl font-black italic tracking-tight text-[#1A1A2E]">Vault</span>
+            <span className="text-2xl font-black italic tracking-tight text-[#3D3535]">X</span>
           </div>
-          <span className="text-[6px] font-black tracking-[0.3em] ml-0.5" style={{ color: '#6C6C80' }}>EXCHANGE</span>
+          <span className="text-[7px] font-black tracking-[0.3em] text-[#6C6C80] mt-0.5">EXCHANGE</span>
         </div>
       </Link>
 
