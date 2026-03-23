@@ -113,7 +113,7 @@ const LandingPage = () => {
           NAVBAR
       ══════════════════════════════════════ */}
       <nav className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#EDE8E1] transition-all duration-300 ${isScrolled ? 'shadow-md py-3' : 'py-5'}`}>
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <div className="w-full px-8 flex items-center justify-between">
           <Logo />
 
           {/* Desktop nav links */}
@@ -167,8 +167,8 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           HERO
       ══════════════════════════════════════ */}
-      <section id="home" className="bg-[#F5F0EB] pt-32 pb-20 min-h-[92vh] flex items-center">
-        <div className="max-w-7xl mx-auto px-6 w-full">
+      <section id="home" className="bg-[#F5F0EB] pt-32 pb-20 min-h-[92vh] flex items-center px-8">
+        <div className="w-full">
           <div className="grid md:grid-cols-2 gap-16 items-center">
 
             {/* Left */}
@@ -266,7 +266,7 @@ const LandingPage = () => {
           STATS BAR
       ══════════════════════════════════════ */}
       <div className="bg-[#C0392B]">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="w-full px-8">
           <div className="flex flex-wrap">
             {stats.map((s, i) => (
               <div key={s.l}
@@ -283,8 +283,8 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           FEATURES
       ══════════════════════════════════════ */}
-      <section id="features" className="bg-[#FAF7F4] py-24 px-6">
-        <div className="max-w-7xl mx-auto">
+      <section id="features" className="bg-[#FAF7F4] py-24 px-8">
+        <div className="w-full">
           <div className="text-center mb-16">
             <span className="inline-block px-4 py-1.5 rounded-full bg-[#E8580C]/08 border border-[#E8580C]/20 text-xs font-black text-[#E8580C] tracking-widest mb-4">
               SMART FINANCIAL TOOLS
@@ -318,8 +318,8 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           HOW IT WORKS
       ══════════════════════════════════════ */}
-      <section id="how-it-works" className="bg-[#F5F0EB] py-24 px-6">
-        <div className="max-w-7xl mx-auto">
+      <section id="how-it-works" className="bg-[#F5F0EB] py-24 px-8">
+        <div className="w-full">
           <div className="text-center mb-20">
             <span className="inline-block px-4 py-1.5 rounded-full bg-[#C0392B]/06 border border-[#C0392B]/15 text-xs font-black text-[#C0392B] tracking-widest mb-4">
               SIMPLE PROCESS
@@ -358,8 +358,8 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           TESTIMONIALS
       ══════════════════════════════════════ */}
-      <section className="bg-[#F2C4CE] py-24 px-6">
-        <div className="max-w-7xl mx-auto">
+      <section className="bg-[#F2C4CE] py-24 px-8">
+        <div className="w-full">
           <div className="text-center mb-16">
             <span className="inline-block px-4 py-1.5 rounded-full bg-[#E8580C]/10 border border-[#E8580C]/20 text-xs font-black text-[#E8580C] tracking-widest mb-4">
               TESTIMONIALS
@@ -399,8 +399,8 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           PRICING
       ══════════════════════════════════════ */}
-      <section id="pricing" className="bg-white py-24 px-6">
-        <div className="max-w-7xl mx-auto">
+      <section id="pricing" className="bg-white py-24 px-8">
+        <div className="w-full">
           <div className="text-center mb-16">
             <span className="inline-block px-4 py-1.5 rounded-full bg-[#E8580C]/08 border border-[#E8580C]/20 text-xs font-black text-[#E8580C] tracking-widest mb-4">
               PRICING
@@ -479,8 +479,8 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           FAQ
       ══════════════════════════════════════ */}
-      <section id="faq" className="bg-[#FAF7F4] py-24 px-6">
-        <div className="max-w-2xl mx-auto">
+      <section id="faq" className="bg-[#FAF7F4] py-24 px-8">
+        <div className="w-full max-w-4xl mx-auto">
           <div className="text-center mb-14">
             <span className="inline-block px-4 py-1.5 rounded-full bg-[#E8580C]/08 border border-[#E8580C]/20 text-xs font-black text-[#E8580C] tracking-widest mb-4">
               FAQ
@@ -517,8 +517,8 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           CTA BANNER
       ══════════════════════════════════════ */}
-      <section className="bg-[#F5F0EB] py-20 px-6">
-        <div className="max-w-7xl mx-auto">
+      <section className="bg-[#F5F0EB] py-20 px-8">
+        <div className="w-full">
           <div className="bg-[#C0392B] rounded-3xl px-10 py-20 text-center relative overflow-hidden">
             {/* Decorative circles */}
             <div className="absolute -top-16 -left-16 w-64 h-64 rounded-full bg-white/5" />
@@ -547,8 +547,8 @@ const LandingPage = () => {
       {/* ══════════════════════════════════════
           FOOTER
       ══════════════════════════════════════ */}
-      <footer className="bg-[#EDE8E1] border-t border-[#EDE8E1] pt-16 pb-10 px-6">
-        <div className="max-w-7xl mx-auto">
+      <footer className="bg-[#EDE8E1] border-t border-[#EDE8E1] pt-16 pb-10 px-8">
+        <div className="w-full">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
 
             {/* Brand */}
