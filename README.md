@@ -1,74 +1,126 @@
-# VaultX Exchange
+# VaultX Exchange 💳
 
-VaultX Exchange is a modern, premium banking simulation platform designed for secure and efficient financial management. It features a robust Spring Boot backend and a dynamic React frontend.
+VaultX Exchange is a modern, premium banking simulation platform designed for secure and efficient financial management. It features a robust Spring Boot backend and a dynamic React frontend with a high-end dark-themed aesthetic.
 
-##  Features
+---
 
-- **Account Management**: Create and manage multiple accounts with ease.
-- **Secure Transactions**: Transfer funds securely between accounts.
-- **Real-time Alerts**: Get notified for important account activities via email.
-- **Modern UI**: A sleek, dark-themed interface with smooth animations and responsive design.
-- **Data Integrity**: Built with JPA/Hibernate and MySQL for reliable data persistence.
+## 🌟 Features
 
-##  Technology Stack
+### 🚀 Currently Implemented
+- **Account Management**: Create and manage multiple accounts with automated account number generation.
+- **Financial Operations**: Support for Deposits, Withdrawals, and Internal Transfers between accounts.
+- **Dynamic Dashboard**: Real-time overview of total balances and recent activities.
+- **Account Details**: In-depth view of individual account history and status.
+- **Premium UI/UX**: Dark-mode interface with glassmorphism, smooth animations, and responsive layouts.
+- **Transaction Alerts**: System-level monitoring for high-value transactions (logging).
 
-### Backend
-- **Framework**: Spring Boot 3.2.3
-- **Language**: Java 17
-- **Database**: MySQL 8.x
-- **ORM**: Hibernate / Spring Data JPA
-- **Build Tool**: Maven
-- **Security & Validation**: Jakarta Validation, Lombok
+### 🗺️ Future Roadmap (What needs to be added)
+- **User Authentication**: Secure Login/Signup using JWT or OAuth2.
+- **Email Notifications**: Integration with SMTP to send real-time transaction alerts to users' emails.
+- **Analytics Dashboard**: Interactive charts and graphs for spending patterns and income analysis.
+- **Profile Management**: User avatars, personal details update, and security settings.
+- **Multi-currency Support**: Ability to hold and transfer funds in different global currencies.
+- **Transaction Search & Filter**: Advanced lookup for historical transactions.
 
-### Frontend
-- **Framework**: React 18
-- **Build Tool**: Vite
-- **Routing**: React Router DOM 6
-- **Styling**: Vanilla CSS (Custom Glassmorphism Design)
-- **Icons**: Lucide React
+---
 
-## Installation & Setup
+## 📊 System Architecture & Flow
 
-### Prerequisites
-- JDK 17 or higher
-- Node.js & npm
-- MySQL Server
+The following flowchart illustrates the interaction between the user, the frontend components, and the backend services:
+
+```mermaid
+graph TD
+    User((User)) -->|Interacts| LandingPage[Landing Page]
+    User -->|Views| Dashboard[Dashboard]
+    
+    subgraph Frontend ["React Frontend (Vite)"]
+        Dashboard --> AccountList[Account List]
+        Dashboard --> TransactionList[Transaction List]
+        Dashboard --> AccountForm[Account Form]
+        Dashboard --> TransactionForm[Transaction Form]
+        AccountList --> AccountDetail[Account Detail]
+    end
+    
+    subgraph Backend ["Spring Boot Backend"]
+        AccountForm --> AccountController[Account Controller]
+        TransactionForm --> TransactionController[Transaction Controller]
+        
+        AccountController --> AccountService[Account Service]
+        TransactionController --> TransactionService[Transaction Service]
+        
+        TransactionService --> AlertService[Alert Service]
+        
+        AccountService --> MySQL[(MySQL Database)]
+        TransactionService --> MySQL
+    end
+    
+    AlertService -->|Logs Alerts| Console[Console/Logs]
+```
+
+---
+
+## 🏗️ Project Structure
+
+### 💻 Frontend (React + Vite)
+Located in `/frontend/src`:
+- **`pages/`**: Main application views.
+    - `LandingPage.jsx`: Premium landing experience with feature showcases.
+    - `Dashboard.jsx`: Central hub for user accounts.
+    - `AccountDetail.jsx`: Detailed history and management for a specific account.
+- **`components/`**: Reusable UI elements.
+    - `AccountForm.jsx`: Modal for account creation and editing.
+    - `TransactionForm.jsx`: Unified logic for all financial transfers.
+    - `Alert.jsx`: Global notification component for user feedback.
+    - `AccountList.jsx` & `TransactionList.jsx`: Specialized data display components.
+- **`services/`**: API integration layer for backend communication.
+
+### ⚙️ Backend (Spring Boot)
+Located in `/src/main/java/com/bank`:
+- **`controller/`**: REST API endpoints mapping.
+    - `AccountController.java`: Endpoints for account CRUD and lookup.
+    - `TransactionController.java`: Endpoints for financial operations (Deposit/Transfer).
+- **`service/`**: Core business logic.
+    - `AccountService.java`: Logic for account lifecycle and balance management.
+    - `TransactionService.java`: Atomic transaction processing logic.
+    - `AlertService.java`: Monitoring logic for transaction thresholds.
+- **`entity/` & `repository/`**: Persistence layer using JPA/Hibernate.
+- **`dto/`**: Data Transfer Objects for clean API responses.
+
+---
+
+## 🛠️ Technology Stack
+
+| Layer | Technologies |
+| :--- | :--- |
+| **Backend** | Spring Boot 3.2.x, Java 17, Spring Data JPA, MySQL |
+| **Frontend** | React 18, Vite, React Router 6, Vanilla CSS (Glassmorphism) |
+| **Icons** | Lucide React |
+| **Security** | Jakarta Validation, Lombok (Planned: Spring Security + JWT) |
+
+---
+
+## 🚀 Installation & Setup
 
 ### 1. Backend Setup
 1. Navigate to the root directory.
 2. Configure your database in `.env` (copied from `.env.example`).
-3. Run Maven to install dependencies:
+3. Run Maven:
    ```bash
    mvn clean install
-   ```
-4. Start the Spring Boot application:
-   ```bash
    mvn spring-boot:run
    ```
 
 ### 2. Frontend Setup
-1. Navigate to the `frontend` directory:
-   ```bash
-   cd frontend
-   ```
-2. Install dependencies:
+1. Navigate to `/frontend`.
+2. Install & Start:
    ```bash
    npm install
-   ```
-3. Configure environment variables in `frontend/.env`.
-4. Start the development server:
-   ```bash
    npm run dev
    ```
 
-##  Configuration
+---
 
-The project uses `.env` files for environment-specific configurations. Make sure to create these from the provided `.env.example` templates in both the root and `frontend` directories.
-
-- **Root `.env`**: Database credentials and backend port.
-- **Frontend `.env`**: API URL and application branding.
-
-##  Branding Note
+## 🎨 Branding Note
 
 **VaultX Exchange** styling:
 - **Vault**: Navy Blue
