@@ -437,7 +437,7 @@ export default function LoginPage() {
         <div className="vx-blob vx-blob-3" />
 
         {/* logo */}
-        <div className="vx-logo">
+        <div className="vx-logo" onClick={() => navigate('/')} style={{ cursor: 'pointer', transition: 'opacity 0.2s' }} onMouseEnter={e => e.currentTarget.style.opacity = '0.8'} onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
           <div className="vx-logo-icon"><ShieldSvg /></div>
           <div className="vx-logo-texts">
             <div className="vx-logo-wordmark">
@@ -557,7 +557,7 @@ export default function LoginPage() {
         <div className="vx-below">
           {isCustomer ? (
             <>New customer?{' '}
-              <button type="button" className="vx-below-link">Open an account →</button>
+              <button type="button" className="vx-below-link" onClick={() => navigate('/register')}>Open an account →</button>
             </>
           ) : (
             <span style={{ color: '#6C6C80', fontSize: 13 }}>

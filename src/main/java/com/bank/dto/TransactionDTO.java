@@ -20,7 +20,9 @@ public class TransactionDTO {
     private LocalDateTime timestamp;
     // Account number of the sender – null for pure deposit
     private String fromAccountNumber;
+    private String fromAccountName;
     // Account number of the receiver – null for pure withdrawal
     private String toAccountNumber;
+    private String toAccountName;
     private String description;
 }

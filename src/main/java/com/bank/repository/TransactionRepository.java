@@ -19,4 +19,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     // Get full transaction history for an account – either side of the move
     List<Transaction> findByFromAccountOrToAccountOrderByTimestampDesc(Account from, Account to);
+
+    // Get all transactions in the system ordered by recency
+    List<Transaction> findAllByOrderByTimestampDesc();
 }

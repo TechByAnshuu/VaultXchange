@@ -1,9 +1,12 @@
 // src/pages/BankDashboard.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { accounts, allTransactions, activityLog } from '../data/mockData';
+import { activityLog } from '../data/mockData';
 import { showToast } from '../components/Toast';
 import ToastContainer from '../components/Toast';
+import { useBankDashboard } from '../hooks/useBankDashboard';
+import AccountDetailModal from '../components/AccountDetailModal';
+import { RefreshCw, Eye, CheckCircle, XCircle } from 'lucide-react';
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
@@ -151,25 +154,28 @@ const NAV_ITEMS = [
 export default function BankDashboard() {
   const navigate = useNavigate();
   const [activeNav, setActiveNav] = useState('dashboard');
-  const [search, setSearch] = useState('');
-  const [alertLog, setAlertLog] = useState(activityLog);
+  const [reviewedAlerts, setReviewedAlerts] = useState(new Set());
+  const [selectedAccount, setSelectedAccount] = useState(null);
 
-  const totalBalance = accounts.reduce((s, a) => s + a.balance, 0);
-  const flaggedCount = alertLog.filter(a => a.status === 'PENDING').length;
+  const {
+    accounts, allAccounts, transactions, stats, loading, error,
+    search, setSearch, statusFilter, setStatusFilter,
+    page, setPage, totalPages, filteredCount,
+    toggleAccountStatus, refetch,
+  } = useBankDashboard();
 
-  const filteredAccounts = accounts.filter(a =>
-    !search || a.holderName.toLowerCase().includes(search.toLowerCase()) || a.accountNumber.includes(search)
-  );
+  const highValueTxns = transactions.filter(t => Math.abs(t.amount || 0) >= 1000);
+  const flaggedCount = highValueTxns.filter(t => !reviewedAlerts.has(t.id)).length;
 
   const handleLogout = () => {
     localStorage.clear();
     navigate('/login');
   };
 
-  const markReviewed = (idx) => {
-    setAlertLog(prev => {
-      const next = [...prev];
-      next[idx] = { ...next[idx], status: 'REVIEWED' };
+  const markReviewed = (txnId) => {
+    setReviewedAlerts(prev => {
+      const next = new Set(prev);
+      next.add(txnId);
       return next;
     });
     showToast('Marked as reviewed', 'success');
@@ -235,21 +241,23 @@ export default function BankDashboard() {
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
               </div>
               <div className="vx-bd-stat-label">Total Accounts</div>
-              <div className="vx-bd-stat-value">{accounts.length}</div>
+              <div className="vx-bd-stat-value">{loading ? '—' : stats?.totalAccounts ?? 0}</div>
             </div>
             <div className="vx-bd-stat">
               <div className="vx-bd-stat-icon" style={{ background: 'rgba(249,199,79,0.12)' }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F9C74F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
               </div>
               <div className="vx-bd-stat-label">Total Balance</div>
-              <div className="vx-bd-stat-value" style={{ fontSize: 20, color: '#F9C74F' }}>${totalBalance.toLocaleString()}</div>
+              <div className="vx-bd-stat-value" style={{ fontSize: 20, color: '#F9C74F' }}>
+                {loading ? '—' : `₹${Number(stats?.totalBalance || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`}
+              </div>
             </div>
             <div className="vx-bd-stat">
               <div className="vx-bd-stat-icon" style={{ background: 'rgba(232,88,12,0.1)' }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8580C" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
               </div>
               <div className="vx-bd-stat-label">Txns Today</div>
-              <div className="vx-bd-stat-value">{allTransactions.filter(t => t.date === '2026-03-24').length}</div>
+              <div className="vx-bd-stat-value">{loading ? '—' : stats?.todayTxns ?? 0}</div>
             </div>
             <div className="vx-bd-stat">
               <div className="vx-bd-stat-icon" style={{ background: 'rgba(232,88,12,0.1)' }}>
@@ -263,26 +271,83 @@ export default function BankDashboard() {
           {/* 2 col */}
           <div className="vx-bd-cols">
             {/* Accounts table */}
-            <div className="vx-bd-panel">
+            <div className="vx-bd-panel" style={{ display: 'flex', flexDirection: 'column' }}>
               <div className="vx-bd-panel-header">
-                <span className="vx-bd-panel-title">All Accounts</span>
-                <input className="vx-bd-search-input" placeholder="Search accounts..." value={search} onChange={e => setSearch(e.target.value)} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <span className="vx-bd-panel-title">All Accounts</span>
+                  <button onClick={refetch} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, display: 'flex', alignItems: 'center' }}>
+                    <RefreshCw size={14} color="#6C6C80" />
+                  </button>
+                </div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <input className="vx-bd-search-input" placeholder="Search accounts..." value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} />
+                  <select
+                    value={statusFilter}
+                    onChange={e => { setStatusFilter(e.target.value); setPage(1); }}
+                    className="vx-bd-search-input"
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <option value="ALL">All Status</option>
+                    <option value="ACTIVE">Active</option>
+                    <option value="FROZEN">Frozen</option>
+                  </select>
+                </div>
               </div>
-              <table className="vx-bd-table">
-                <thead>
-                  <tr><th>Account No</th><th>Name</th><th>Balance</th><th>Status</th></tr>
-                </thead>
-                <tbody>
-                  {filteredAccounts.map(a => (
-                    <tr key={a.id}>
-                      <td style={{ fontFamily: 'monospace', fontSize: 12 }}>{a.accountNumber}</td>
-                      <td>{a.holderName}</td>
-                      <td style={{ fontWeight: 700 }}>${a.balance.toLocaleString()}</td>
-                      <td><span className={`vx-bd-badge ${a.status === 'ACTIVE' ? 'badge-active' : 'badge-inactive'}`}>{a.status}</span></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <div style={{ flex: 1, overflowX: 'auto' }}>
+                <table className="vx-bd-table">
+                  <thead>
+                    <tr><th>Account No</th><th>Name</th><th>Balance</th><th>Status</th><th>Action</th></tr>
+                  </thead>
+                  <tbody>
+                    {loading ? (
+                      <tr><td colSpan={5} style={{ textAlign: 'center', padding: 24, color: '#6C6C80' }}>Loading...</td></tr>
+                    ) : accounts.length === 0 ? (
+                      <tr><td colSpan={5} style={{ textAlign: 'center', padding: 24, color: '#6C6C80' }}>No accounts found</td></tr>
+                    ) : (
+                      accounts.map(a => (
+                        <tr key={a.id || a.accountNumber}>
+                          <td style={{ fontFamily: 'monospace', fontSize: 12, fontWeight: 600 }}>{a.accountNumber}</td>
+                          <td style={{ fontWeight: 600 }}>{a.holderName || a.name}</td>
+                          <td style={{ fontWeight: 700, color: '#F9C74F' }}>₹{Number(a.balance || 0).toLocaleString('en-IN')}</td>
+                          <td><span className={`vx-bd-badge ${a.status === 'ACTIVE' ? 'badge-active' : 'badge-inactive'}`}>{a.status}</span></td>
+                          <td>
+                            <div style={{ display: 'flex', gap: 6 }}>
+                              <button title="View Details" onClick={() => setSelectedAccount(a)}
+                                style={{ width: 28, height: 28, borderRadius: 6, border: '1px solid #EDE8E1', background: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <Eye size={14} color="#3D3535" />
+                              </button>
+                              <button
+                                title={a.status === 'ACTIVE' ? 'Freeze Account' : 'Activate Account'}
+                                onClick={() => toggleAccountStatus(a.id, a.status)}
+                                style={{ width: 28, height: 28, borderRadius: 6, border: '1px solid', borderColor: a.status === 'ACTIVE' ? '#FEE9DC' : '#E8F7F0', background: a.status === 'ACTIVE' ? '#FEE9DC' : '#E8F7F0', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                {a.status === 'ACTIVE'
+                                  ? <XCircle size={14} color="#E8580C" />
+                                  : <CheckCircle size={14} color="#10B981" />}
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 20px', borderTop: '1px solid #EDE8E1', background: '#FAFAF9' }}>
+                  <span style={{ fontSize: 12, color: '#6C6C80' }}>Page {page} of {totalPages} ({filteredCount} results)</span>
+                  <div style={{ display: 'flex', gap: 6 }}>
+                    <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
+                      style={{ padding: '6px 14px', borderRadius: 8, border: '1px solid #EDE8E1', background: 'white', cursor: page === 1 ? 'not-allowed' : 'pointer', opacity: page === 1 ? 0.5 : 1, fontSize: 13 }}>
+                      ← Prev
+                    </button>
+                    <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}
+                      style={{ padding: '6px 14px', borderRadius: 8, border: '1px solid #EDE8E1', background: 'white', cursor: page === totalPages ? 'not-allowed' : 'pointer', opacity: page === totalPages ? 0.5 : 1, fontSize: 13 }}>
+                      Next →
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Recent transactions */}
@@ -291,18 +356,34 @@ export default function BankDashboard() {
                 <span className="vx-bd-panel-title">Recent Transactions</span>
               </div>
               <div className="vx-bd-feed">
-                {allTransactions.slice(0, 7).map(t => (
-                  <div key={t.id} className="vx-bd-feed-item">
-                    <div className="vx-bd-feed-avatar">{t.title.charAt(0)}</div>
-                    <div>
-                      <div className="vx-bd-feed-name">{t.title}</div>
-                      <div className="vx-bd-feed-time">{t.date} · {t.mode}</div>
-                    </div>
-                    <div className="vx-bd-feed-amount" style={{ color: t.type === 'CREDIT' ? '#10B981' : '#1A1A2E' }}>
-                      {t.type === 'CREDIT' ? '+' : '-'}₹{t.amount.toLocaleString()}
-                    </div>
-                  </div>
-                ))}
+                {loading ? (
+                  <div style={{ padding: 24, textAlign: 'center', color: '#6C6C80' }}>Loading...</div>
+                ) : transactions.length === 0 ? (
+                  <div style={{ padding: 24, textAlign: 'center', color: '#6C6C80' }}>No transactions found</div>
+                ) : (
+                  transactions.slice(0, 10).map((t, i) => {
+                    const isCredit = t.type === 'DEPOSIT' || (t.type === 'CREDIT') || (t.amount > 0 && t.type !== 'WITHDRAW');
+                    const amt = Math.abs(t.amount || 0);
+                    const time = t.timestamp || t.createdAt;
+                    const displayTitle = t.holderName || t.fromAccountName || t.toAccountName || 'Account Holder';
+                    return (
+                      <div key={t.id || i} className="vx-bd-feed-item">
+                        <div className="vx-bd-feed-avatar" style={{ background: isCredit ? '#E8F7F0' : '#FEE9DC', color: isCredit ? '#10B981' : '#E8580C' }}>
+                          {isCredit ? '↙' : '↗'}
+                        </div>
+                        <div style={{ minWidth: 0, flex: 1 }}>
+                          <div className="vx-bd-feed-name" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{displayTitle}</div>
+                          <div className="vx-bd-feed-time">
+                            {t.type || 'TRANSFER'} · {time ? new Date(time).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' }) : ''}
+                          </div>
+                        </div>
+                        <div className="vx-bd-feed-amount" style={{ color: isCredit ? '#10B981' : '#1A1A2E' }}>
+                          {isCredit ? '+' : '-'}₹{amt.toLocaleString('en-IN')}
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
               </div>
             </div>
           </div>
@@ -314,31 +395,61 @@ export default function BankDashboard() {
             </div>
             <table className="vx-bd-alert-table">
               <thead>
-                <tr><th>Time</th><th>Account</th><th>Holder</th><th>Amount</th><th>Type</th><th>Status</th><th>Action</th></tr>
+                <tr><th>Time</th><th>Account</th><th>Details</th><th>Amount</th><th>Type</th><th>Status</th><th>Action</th></tr>
               </thead>
               <tbody>
-                {alertLog.map((a, i) => (
-                  <tr key={i}>
-                    <td style={{ fontSize: 12, color: '#6C6C80' }}>{a.time}</td>
-                    <td style={{ fontFamily: 'monospace', fontSize: 12 }}>{a.account}</td>
-                    <td>{a.holder}</td>
-                    <td style={{ fontWeight: 700 }}>₹{a.amount.toLocaleString()}</td>
-                    <td><span className={`vx-bd-badge ${a.type === 'CREDIT' ? 'badge-active' : 'badge-inactive'}`}>{a.type}</span></td>
-                    <td>
-                      <span className={`vx-bd-badge ${a.status === 'REVIEWED' ? 'badge-active' : 'badge-inactive'}`}>{a.status}</span>
-                    </td>
-                    <td>
-                      <button className="vx-bd-review-btn" disabled={a.status === 'REVIEWED'} onClick={() => markReviewed(i)}>
-                        {a.status === 'REVIEWED' ? '✓ Done' : 'Mark Reviewed'}
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {loading ? (
+                  <tr><td colSpan={7} style={{ textAlign: 'center', padding: 24, color: '#6C6C80' }}>Loading alerts...</td></tr>
+                ) : highValueTxns.length === 0 ? (
+                  <tr><td colSpan={7} style={{ textAlign: 'center', padding: 24, color: '#6C6C80' }}>No high-value transactions found.</td></tr>
+                ) : (
+                  highValueTxns.map(t => {
+                    const isReviewed = reviewedAlerts.has(t.id);
+                    const isCredit = t.type === 'DEPOSIT' || t.amount > 0;
+                    const timeStr = t.timestamp || t.createdAt;
+                    return (
+                      <tr key={t.id}>
+                        <td style={{ fontSize: 12, color: '#6C6C80' }}>
+                          {timeStr ? new Date(timeStr).toLocaleString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—'}
+                        </td>
+                        <td style={{ fontFamily: 'monospace', fontSize: 12, fontWeight: 600 }}>
+                          {t.toAccountNo || t.fromAccountNo || '—'}
+                        </td>
+                        <td>
+                          <div style={{ fontWeight: 600 }}>{t.holderName || t.toAccountName || t.fromAccountName || t.description || 'Unknown'}</div>
+                          <div style={{ fontSize: 11, color: '#6C6C80' }}>TXN: {t.id}</div>
+                        </td>
+                        <td style={{ fontWeight: 700, color: isCredit ? '#10B981' : '#E8580C' }}>
+                          {isCredit ? '+' : '-'}₹{Math.abs(t.amount).toLocaleString('en-IN')}
+                        </td>
+                        <td>
+                          <span className={`vx-bd-badge ${isCredit ? 'badge-active' : 'badge-inactive'}`}>
+                            {t.type || (isCredit ? 'CREDIT' : 'DEBIT')}
+                          </span>
+                        </td>
+                        <td>
+                          <span className={`vx-bd-badge ${isReviewed ? 'badge-active' : 'badge-inactive'}`}>
+                            {isReviewed ? 'REVIEWED' : 'PENDING'}
+                          </span>
+                        </td>
+                        <td>
+                          <button className="vx-bd-review-btn" disabled={isReviewed} onClick={() => markReviewed(t.id)}>
+                            {isReviewed ? '✓ Done' : 'Mark Reviewed'}
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
               </tbody>
             </table>
           </div>
         </main>
       </div>
+
+      {selectedAccount && (
+        <AccountDetailModal account={selectedAccount} onClose={() => setSelectedAccount(null)} />
+      )}
       <ToastContainer />
     </>
   );

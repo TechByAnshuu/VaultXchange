@@ -5,7 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
+import com.bank.dto.TransactionDTO;
 
 // Exposes financial transactions (deposit, withdraw, transfer) to external clients
 @RestController
@@ -48,5 +50,19 @@ public class TransactionController {
         
         transactionService.transfer(fromAcc, toAcc, amount);
         return ResponseEntity.ok(Map.of("message", "Transfer successful"));
+    }
+
+    // Expected response: List of TransactionDTOs describing account history
+    @GetMapping("/history/{accountNumber}")
+    public ResponseEntity<List<TransactionDTO>> getHistory(@PathVariable String accountNumber) {
+        List<TransactionDTO> history = transactionService.getAccountHistory(accountNumber);
+        return ResponseEntity.ok(history);
+    }
+
+    // Expected response: List of TransactionDTOs describing all transactions in the system
+    @GetMapping
+    public ResponseEntity<List<TransactionDTO>> getAllTransactions() {
+        List<TransactionDTO> allTransactions = transactionService.getAllTransactions();
+        return ResponseEntity.ok(allTransactions);
     }
 }

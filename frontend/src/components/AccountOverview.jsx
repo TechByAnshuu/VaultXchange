@@ -2,6 +2,22 @@
 import React, { useState } from 'react';
 
 const styles = `
+  @keyframes floatUp {
+    0%   { opacity: 0; transform: translateY(0px); }
+    20%  { opacity: 1; transform: translateY(-8px); }
+    80%  { opacity: 1; transform: translateY(-16px); }
+    100% { opacity: 0; transform: translateY(-28px); }
+  }
+  .vx-balance-pill {
+    position: absolute; top: -32px; right: 0;
+    padding: 4px 12px; border-radius: 20px;
+    font-size: 12px; font-weight: 700; color: #FFFFFF;
+    animation: floatUp 2.8s ease forwards;
+    pointer-events: none; white-space: nowrap;
+    z-index: 10;
+  }
+  .vx-balance-pill--credit { background: #10B981; }
+  .vx-balance-pill--debit  { background: #E8580C; }
   .vx-overview {
     padding: 32px 40px;
     display: flex;
@@ -132,6 +148,25 @@ const styles = `
     font-size: 12px; color: #6C6C80; margin-top: 4px;
   }
 
+  /* Quick Actions Block */
+  .vx-quick-actions-card {
+    background: #FFFFFF; border: 1px solid #EDE8E1;
+    border-radius: 18px; padding: 20px;
+  }
+  .vx-qa-btn {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; padding: 12px 16px; border-radius: 12px;
+    background: #FAF7F4; border: 1.5px solid #EDE8E1;
+    font-size: 14px; font-weight: 700; color: #1A1A2E;
+    margin-bottom: 8px; cursor: pointer; transition: all 0.18s;
+  }
+  .vx-qa-btn:hover { border-color: #3D3535; background: #FFFFFF; }
+  .vx-qa-btn:last-child { margin-bottom: 0; }
+  .vx-qa-icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
   /* Account switcher pills */
   .vx-switcher-label {
     font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
@@ -162,11 +197,19 @@ const styles = `
   }
 `;
 
-const fmt = (n) => `$${Number(n).toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+const fmt = (n) => `₹${Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-export default function AccountOverview({ accounts = [], activeAccountId, onSwitchAccount }) {
+export default function AccountOverview({ accounts = [], transactions = [], activeAccountId, onSwitchAccount, onActionClick, balancePill }) {
+  const [showAccNo, setShowAccNo] = useState(false);
+
   const active = accounts.find(a => a.id === activeAccountId) || accounts[0];
   const totalBalance = accounts.reduce((s, a) => s + a.balance, 0);
+
+  const currentMonth = new Date().toLocaleString('en-US', { month: 'short', year: 'numeric' });
+  const monthSpent = transactions.reduce((sum, t) => {
+    if (t.type === 'DEBIT') return sum + Number(t.amount);
+    return sum;
+  }, 0);
 
   if (!active) return null;
 
@@ -187,10 +230,38 @@ export default function AccountOverview({ accounts = [], activeAccountId, onSwit
             </div>
           </div>
           <div className="vx-balance-label">Available Balance</div>
-          <div className="vx-balance-amount">{fmt(active.balance)}</div>
+          <div style={{ position: 'relative', display: 'inline-block' }}>
+            {balancePill && (
+              <span
+                className={`vx-balance-pill vx-balance-pill--${balancePill.sign === '+' ? 'credit' : 'debit'}`}
+              >
+                {balancePill.sign}{fmt(balancePill.amount)}
+              </span>
+            )}
+            <div className="vx-balance-amount"
+              style={{ color: balancePill ? (balancePill.sign === '+' ? '#10B981' : '#E8580C') : '#F9C74F',
+                       transition: 'color 0.5s ease' }}>
+              {fmt(active.balance)}
+            </div>
+          </div>
           <div className="vx-card-divider" />
           <div className="vx-card-bottom">
-            <span className="vx-card-number">{active.maskedNumber}</span>
+            <span className="vx-card-number" onClick={() => setShowAccNo(!showAccNo)} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
+              {showAccNo ? active.accountNumber : active.maskedNumber}
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                {showAccNo ? (
+                  <>
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                    <line x1="1" y1="1" x2="23" y2="23" />
+                  </>
+                ) : (
+                  <>
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </>
+                )}
+              </svg>
+            </span>
             <span className="vx-card-holder-name">{active.holderName}</span>
           </div>
           <div className="vx-card-badges">
@@ -217,41 +288,52 @@ export default function AccountOverview({ accounts = [], activeAccountId, onSwit
           <div className="vx-stat-card">
             <div className="vx-stat-icon" style={{ background: 'rgba(232,88,12,0.1)' }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8580C" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/>
               </svg>
             </div>
             <div className="vx-stat-label">Month Spent</div>
-            <div className="vx-stat-value" style={{ color: '#E8580C' }}>$5,828</div>
-            <div className="vx-stat-sub">March 2026</div>
+            <div className="vx-stat-value" style={{ color: '#E8580C' }}>{fmt(monthSpent)}</div>
+            <div className="vx-stat-sub">{currentMonth}</div>
           </div>
 
-          {/* Cashback */}
-          <div className="vx-stat-card">
-            <div className="vx-stat-icon" style={{ background: 'rgba(16,185,129,0.1)' }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7m0 0H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zm0 0h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
-              </svg>
-            </div>
-            <div className="vx-stat-label">Cashback Earned</div>
-            <div className="vx-stat-value" style={{ color: '#10B981' }}>$195</div>
-            <div className="vx-stat-sub">This month</div>
+          {/* Add Money Card */}
+          <div className="vx-stat-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <div className="vx-stat-label" style={{ marginBottom: 12 }}>Deposit Funds</div>
+            <button className="vx-qa-btn" onClick={() => onActionClick?.('deposit')} style={{ marginBottom: 0, padding: '16px 20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div className="vx-qa-icon" style={{ background: 'rgba(16,185,129,0.1)' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </div>
+                Add Money
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6C6C80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
           </div>
 
-          {/* Account switcher */}
-          <div className="vx-stat-card full">
-            <div className="vx-switcher-label">Switch Account</div>
-            <div className="vx-switcher-pills">
-              {accounts.map(a => (
-                <button
-                  key={a.id}
-                  className={`vx-switcher-pill${a.id === active.id ? ' active' : ''}`}
-                  onClick={() => onSwitchAccount?.(a.id)}
-                >
-                  {a.type} ···{a.accountNumber.slice(-4)}
-                </button>
-              ))}
-            </div>
+          {/* Quick Actions (Withdraw/Transfer) */}
+          <div className="vx-quick-actions-card">
+            <div className="vx-stat-label" style={{ marginBottom: 12 }}>Quick Actions</div>
+            <button className="vx-qa-btn" onClick={() => onActionClick?.('withdraw')} style={{ padding: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div className="vx-qa-icon" style={{ background: 'rgba(232,88,12,0.08)' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E8580C" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </div>
+                Withdraw
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6C6C80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <button className="vx-qa-btn" onClick={() => onActionClick?.('transfer')} style={{ padding: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div className="vx-qa-icon" style={{ background: 'rgba(61,53,53,0.08)' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D3535" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                </div>
+                Transfer
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6C6C80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
           </div>
+
+
         </div>
       </section>
     </>

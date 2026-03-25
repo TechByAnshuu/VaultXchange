@@ -14,3 +14,8 @@ export const transfer = async (fromAccount, toAccount, amount) => {
   const response = await api.post('/transactions/transfer', { fromAccount, toAccount, amount });
   return response.data;
 };
+
+export const getTransactionHistory = async (accountNumber) => {
+  const response = await api.get(`/transactions/history/${accountNumber}`);
+  return response.data;
+};

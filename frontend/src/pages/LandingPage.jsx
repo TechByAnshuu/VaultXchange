@@ -68,7 +68,7 @@ const LandingPage = () => {
 
   // ── Logo ──────────────────────────────────
   const Logo = ({ large = false }) => (
-    <div className="flex items-center gap-2.5">
+    <Link to="/" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
       <div className={`${large ? 'w-10 h-10' : 'w-9 h-9'} rounded-xl bg-[#3D3535] flex items-center justify-center flex-shrink-0 shadow-lg shadow-[#3D3535]/30`}>
         <svg width={large ? 22 : 18} height={large ? 22 : 18} viewBox="0 0 24 24" fill="none">
           <path d="M9 12L11 14L15 10M12 2L3 7V13C3 17.97 7.02 22.63 12 24C16.98 22.63 21 17.97 21 13V7L12 2Z"
@@ -82,7 +82,7 @@ const LandingPage = () => {
         </div>
         <span className="text-[7px] font-black tracking-[0.3em] text-[#6C6C80] mt-0.5">{brand.sub}</span>
       </div>
-    </div>
+    </Link>
   );
 
   // ── Check icon ────────────────────────────

@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
+import com.bank.dto.TransactionDTO;
 
 // Service layer handling deposits, withdrawals, and transfers
 @Service
@@ -94,5 +97,52 @@ public class TransactionService {
         transactionRepository.save(transaction);
         
         alertService.checkAndAlert(sender, amount, "TRANSFER");
+    }
+
+    // Fetches the transaction history for an account
+    @Transactional(readOnly = true)
+    public List<TransactionDTO> getAccountHistory(String accNo) throws AccountNotFoundException {
+        Account account = accountService.getAccount(accNo);
+        List<Transaction> transactions = transactionRepository.findByFromAccountOrToAccountOrderByTimestampDesc(account, account);
+        
+        return transactions.stream().map(t -> {
+            TransactionDTO dto = new TransactionDTO();
+            dto.setId(t.getId());
+            dto.setType(t.getType());
+            dto.setAmount(t.getAmount());
+            dto.setTimestamp(t.getTimestamp());
+            if (t.getFromAccount() != null) {
+                dto.setFromAccountNumber(t.getFromAccount().getAccountNumber());
+                dto.setFromAccountName(t.getFromAccount().getHolderName());
+            }
+            if (t.getToAccount() != null) {
+                dto.setToAccountNumber(t.getToAccount().getAccountNumber());
+                dto.setToAccountName(t.getToAccount().getHolderName());
+            }
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
+    // Fetches all transactions across all accounts for the bank employee dashboard
+    @Transactional(readOnly = true)
+    public List<TransactionDTO> getAllTransactions() {
+        List<Transaction> transactions = transactionRepository.findAllByOrderByTimestampDesc();
+        
+        return transactions.stream().map(t -> {
+            TransactionDTO dto = new TransactionDTO();
+            dto.setId(t.getId());
+            dto.setType(t.getType());
+            dto.setAmount(t.getAmount());
+            dto.setTimestamp(t.getTimestamp());
+            if (t.getFromAccount() != null) {
+                dto.setFromAccountNumber(t.getFromAccount().getAccountNumber());
+                dto.setFromAccountName(t.getFromAccount().getHolderName());
+            }
+            if (t.getToAccount() != null) {
+                dto.setToAccountNumber(t.getToAccount().getAccountNumber());
+                dto.setToAccountName(t.getToAccount().getHolderName());
+            }
+            return dto;
+        }).collect(Collectors.toList());
     }
 }

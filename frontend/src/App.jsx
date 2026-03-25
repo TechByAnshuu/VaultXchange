@@ -9,6 +9,7 @@ import BankDashboard from './pages/BankDashboard';
 import Dashboard from './pages/Dashboard';
 import AccountDetail from './pages/AccountDetail';
 import Login from './pages/Login';
+import Register from './pages/Register';
 import LandingPage from './pages/LandingPage';
 
 /* ── Protected Route Wrapper ── */
@@ -33,6 +34,7 @@ function App() {
           {/* Public */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
           {/* Customer protected */}
           <Route path="/customer/home" element={
