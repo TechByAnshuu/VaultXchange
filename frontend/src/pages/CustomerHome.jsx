@@ -10,6 +10,7 @@ import ActivityCentre from '../components/ActivityCentre';
 import ToastContainer from '../components/Toast';
 import TransactionModal from '../components/TransactionModal';
 import TransactionToastContainer, { showTransactionToast } from '../components/TransactionToast';
+import VaultXChatbot from '../components/VaultXChatbot';
 import { getTransactionHistory } from '../services/transactionService';
 import { currentUser } from '../data/mockData';
 
@@ -253,6 +254,21 @@ export default function CustomerHome() {
           onComplete={fetchData}
           onBalanceChange={handleBalanceChange}
         />
+
+        {/* VaultX AI Banking Assistant — authenticated session */}
+        {bankAccounts.length > 0 && (() => {
+          const activeAcc = displayAccounts.find(a => a.id === activeAccountId) || displayAccounts[0];
+          const chatSession = {
+            accountNumber: activeAcc?.accountNumber || '',
+            name: activeAcc?.holderName || activeAcc?.name || user?.name || '',
+            email: activeAcc?.email || user?.email || '',
+            phone: activeAcc?.phone || user?.phone || '',
+            balance: activeAcc?.balance ?? 0,
+            status: activeAcc?.status || 'ACTIVE',
+            joinedDate: activeAcc?.openedDate || activeAcc?.createdAt || '',
+          };
+          return <VaultXChatbot session={chatSession} onTransactionComplete={fetchData} />;
+        })()}
       </div>
     </>
   );

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { loginAccount } from '../services/accountService';
 
 /* ─────────────────────────────────────────────────────────────────────
    VaultX Exchange — LoginPage.jsx
@@ -376,12 +377,13 @@ const StarSvg = () => (
 /* ─── LoginPage ─────────────────────────────────────────────────────── */
 export default function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   /* role: 'customer' | 'employee' */
   const [role, setRole]       = useState('customer');
-  const [account, setAccount] = useState('');
+  const [account, setAccount] = useState(location.state?.accountNumber || '');
   const [empId, setEmpId]     = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState(location.state?.password || '');
   const [error, setError]     = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -394,18 +396,28 @@ export default function LoginPage() {
     setPassword('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
     if (role === 'customer') {
       if (!account.trim() || !password.trim()) return;
       setLoading(true);
-      setTimeout(() => {
+      try {
+        const user = await loginAccount(account, password);
+        // Successful login
         localStorage.setItem('vx_role', 'customer');
-        localStorage.setItem('vx_user', JSON.stringify({ name: 'Alice Johnson', account }));
+        localStorage.setItem('vx_user', JSON.stringify({ 
+          name: user.holderName, 
+          account: user.accountNumber,
+          data: user 
+        }));
         navigate('/customer/home');
-      }, 850);
+      } catch (err) {
+        setError('Invalid account number or password.');
+      } finally {
+        setLoading(false);
+      }
     } else {
       if (!empId.trim() || !password.trim()) return;
       if (empId === 'admin' && password === 'admin123') {

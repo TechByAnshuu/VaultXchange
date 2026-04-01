@@ -46,7 +46,10 @@ public class AccountControllerIntegrationTest {
     @Test
     void testCreateAndGetAccountFlow() throws Exception {
         // 1. Create Account via POST
-        AccountDTO dto = new AccountDTO("Alice", "alice@test.com", new BigDecimal("500.00"));
+        AccountDTO dto = new AccountDTO();
+        dto.setHolderName("Alice");
+        dto.setEmail("alice@test.com");
+        dto.setInitialBalance(new BigDecimal("500.00"));
 
         String responseJson = mockMvc.perform(post("/api/accounts")
                 .contentType(MediaType.APPLICATION_JSON)

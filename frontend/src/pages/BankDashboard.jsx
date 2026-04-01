@@ -6,6 +6,7 @@ import { showToast } from '../components/Toast';
 import ToastContainer from '../components/Toast';
 import { useBankDashboard } from '../hooks/useBankDashboard';
 import AccountDetailModal from '../components/AccountDetailModal';
+import VaultXChatbot from '../components/VaultXChatbot';
 import { RefreshCw, Eye, CheckCircle, XCircle } from 'lucide-react';
 
 const styles = `
@@ -451,6 +452,9 @@ export default function BankDashboard() {
         <AccountDetailModal account={selectedAccount} onClose={() => setSelectedAccount(null)} />
       )}
       <ToastContainer />
+
+      {/* VaultX General Assistant — no session (employee view) */}
+      <VaultXChatbot session={null} />
     </>
   );
 }

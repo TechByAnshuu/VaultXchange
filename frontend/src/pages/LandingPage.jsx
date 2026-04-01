@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import VaultXChatbot from '../components/VaultXChatbot';
 
 const LandingPage = () => {
   const brand = { name: 'Vault', suffix: 'X', sub: 'EXCHANGE' };
@@ -603,6 +604,9 @@ const LandingPage = () => {
           </div>
         </div>
       </footer>
+
+      {/* VaultX Assistant — helps new visitors create an account */}
+      <VaultXChatbot session={null} landingPage />
 
     </div>
   );

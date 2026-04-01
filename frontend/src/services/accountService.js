@@ -14,3 +14,8 @@ export const createAccount = async (accountData) => {
   const response = await api.post('/accounts', accountData);
   return response.data;
 };
+
+export const loginAccount = async (accountNumber, password) => {
+  const response = await api.post('/accounts/login', { accountNumber, password });
+  return response.data;
+};

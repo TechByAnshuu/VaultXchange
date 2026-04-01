@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.bank.dto.AccountDTO;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,7 +37,11 @@ public class AccountServiceTest {
         when(accountRepository.save(any(Account.class))).thenReturn(savedAccount);
 
         // When
-        Account account = accountService.createAccount("John Doe", "john@test.com", new BigDecimal("100.00"));
+        AccountDTO dto = new AccountDTO();
+        dto.setHolderName("John Doe");
+        dto.setEmail("john@test.com");
+        dto.setInitialBalance(new BigDecimal("100.00"));
+        Account account = accountService.createAccount(dto);
 
         // Then
         assertNotNull(account);
@@ -47,8 +52,13 @@ public class AccountServiceTest {
     @Test
     void testCreateAccountNegativeBalanceFails() {
         // Expect an exception if balance is below zero
+        AccountDTO badDto = new AccountDTO();
+        badDto.setHolderName("Bad User");
+        badDto.setEmail("bad@test.com");
+        badDto.setInitialBalance(new BigDecimal("-50.00"));
+        
         assertThrows(InvalidAmountException.class, () -> {
-            accountService.createAccount("Bad User", "bad@test.com", new BigDecimal("-50.00"));
+            accountService.createAccount(badDto);
         });
     }
 }

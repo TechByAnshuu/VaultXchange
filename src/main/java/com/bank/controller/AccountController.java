@@ -46,11 +46,19 @@ public class AccountController {
     // Create a new account
     @PostMapping
     public ResponseEntity<AccountResponseDTO> createAccount(@Valid @RequestBody AccountDTO dto) {
-        Account newAccount = accountService.createAccount(
-                dto.getHolderName(),
-                dto.getEmail(),
-                dto.getInitialBalance()
-        );
+        Account newAccount = accountService.createAccount(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toAccountResponseDTO(newAccount));
+    }
+
+    // Login to access an account profile
+    @PostMapping("/login")
+    public ResponseEntity<AccountResponseDTO> login(@Valid @RequestBody com.bank.dto.LoginDTO loginDTO) {
+        try {
+            Account account = accountService.login(loginDTO.getAccountNumber(), loginDTO.getPassword());
+            return ResponseEntity.ok(mapper.toAccountResponseDTO(account));
+        } catch (Exception e) {
+            // Throwing a raw ResponseStatusException or returning 401
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 }

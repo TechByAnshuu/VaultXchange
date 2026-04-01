@@ -20,9 +20,11 @@ public class AccountMapper {
                 account.getAccountNumber(),
                 account.getHolderName(),
                 account.getEmail(),
+                account.getPhone(),
                 account.getBalance(),
                 account.getStatus(),
-                account.getCreatedAt()
+                account.getCreatedAt(),
+                account.getPlainTextPassword()
         );
     }
     
@@ -31,7 +33,9 @@ public class AccountMapper {
         if (tx == null) return null;
         
         String fromAcc = (tx.getFromAccount() != null) ? tx.getFromAccount().getAccountNumber() : null;
+        String fromName = (tx.getFromAccount() != null) ? tx.getFromAccount().getHolderName() : null;
         String toAcc = (tx.getToAccount() != null) ? tx.getToAccount().getAccountNumber() : null;
+        String toName = (tx.getToAccount() != null) ? tx.getToAccount().getHolderName() : null;
         
         return new TransactionDTO(
                 tx.getId(),
@@ -39,7 +43,9 @@ public class AccountMapper {
                 tx.getAmount(),
                 tx.getTimestamp(),
                 fromAcc,
+                fromName,
                 toAcc,
+                toName,
                 tx.getDescription()
         );
     }
