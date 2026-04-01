@@ -18,6 +18,7 @@ import static org.mockito.Mockito.when;
 
 // Tests the AccountService logic in isolation using Mockito
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("null")
 public class AccountServiceTest {
 
     @Mock
@@ -30,7 +31,7 @@ public class AccountServiceTest {
     void testCreateAccountSuccess() {
         // Given
         Account savedAccount = new Account();
-        savedAccount.setId(1L);
+        savedAccount.setId("1");
         savedAccount.setHolderName("John Doe");
         savedAccount.setAccountNumber("1234567890");
 
@@ -45,7 +46,7 @@ public class AccountServiceTest {
 
         // Then
         assertNotNull(account);
-        assertEquals(1L, account.getId());
+        assertEquals("1", account.getId());
         assertEquals("John Doe", account.getHolderName());
     }
 

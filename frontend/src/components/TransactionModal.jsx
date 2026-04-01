@@ -185,11 +185,14 @@ export default function TransactionModal({ isOpen, onClose, type, activeAccount,
       setTransferStep('processing');
 
       try {
-        // Run API call + minimum 1.5s spinner delay in parallel
-        await Promise.all([
+        // Run API call + fetch recipient name + spinner delay in parallel
+        const [transferRes, accRes] = await Promise.allSettled([
           transfer(activeAccount.accountNumber, toAccount, amt),
+          import('../services/accountService').then(m => m.getAccountDetails(toAccount)),
           new Promise(res => setTimeout(res, 1500)),
         ]);
+
+        if (transferRes.status === 'rejected') throw transferRes.reason;
 
         const txnId = `#TXN${Date.now().toString().slice(-10)}`;
         const now = new Date();
@@ -197,13 +200,16 @@ export default function TransactionModal({ isOpen, onClose, type, activeAccount,
           day: '2-digit', month: 'short', year: 'numeric',
           hour: '2-digit', minute: '2-digit', hour12: true
         });
-        const recipientName = 'Henry Bugtest';
+        
+        const fetchedName = accRes.status === 'fulfilled' && accRes.value ? accRes.value.holderName || accRes.value.name : null;
+        const recipientName = fetchedName || 'Verified Beneficiary';
 
         setReceiptData({ txnId, dateStr, recipientName, accountNo: toAccount, amount: amt });
         setTransferStep('receipt');
 
         onComplete?.();
-        onBalanceChange?.({ type: 'debit', amount: amt });
+        // Pass recipient details to the dashboard so UI toasts show the right name
+        onBalanceChange?.({ type: 'transfer', amount: amt, toAccountNo: toAccount, recipientName });
       } catch (err) {
         const msg = err.response?.data?.message || err.message || 'Transfer failed';
         setError(msg);

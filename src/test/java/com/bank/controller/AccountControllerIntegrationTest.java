@@ -1,7 +1,6 @@
 package com.bank.controller;
 
 import com.bank.dto.AccountDTO;
-import com.bank.entity.Account;
 import com.bank.repository.AccountRepository;
 import com.bank.repository.TransactionRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 // Full integration test standing up the Spring Context and testing the HTTP endpoints with H2 DB
 @SpringBootTest
 @AutoConfigureMockMvc
+@SuppressWarnings("null")
 public class AccountControllerIntegrationTest {
 
     @Autowired

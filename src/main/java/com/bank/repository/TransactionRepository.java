@@ -1,25 +1,26 @@
 package com.bank.repository;
 
-import com.bank.entity.Account;
 import com.bank.entity.Transaction;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-// Spring Data JPA handles all SQL queries automatically for transactions table
+// Spring Data MongoDB handles all queries automatically for the 'transactions' collection
 @Repository
-public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+public interface TransactionRepository extends MongoRepository<Transaction, String> {
 
     // Get all transactions where money came from this account
-    List<Transaction> findByFromAccount(Account account);
+    List<Transaction> findByFromAccountNumber(String accountNumber);
 
     // Get all transactions where money went into this account
-    List<Transaction> findByToAccount(Account account);
+    List<Transaction> findByToAccountNumber(String accountNumber);
 
-    // Get full transaction history for an account – either side of the move
-    List<Transaction> findByFromAccountOrToAccountOrderByTimestampDesc(Account from, Account to);
+    // Get full transaction history for an account — either as sender or receiver
+    // Ordered by timestamp descending (newest first)
+    List<Transaction> findByFromAccountNumberOrToAccountNumberOrderByTimestampDesc(
+            String fromAccountNumber, String toAccountNumber);
 
-    // Get all transactions in the system ordered by recency
+    // Get all transactions in the system ordered by recency (bank employee dashboard)
     List<Transaction> findAllByOrderByTimestampDesc();
 }

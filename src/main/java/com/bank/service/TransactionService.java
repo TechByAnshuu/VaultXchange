@@ -8,7 +8,6 @@ import com.bank.exception.InsufficientBalanceException;
 import com.bank.exception.InvalidAmountException;
 import com.bank.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,41 +16,50 @@ import com.bank.dto.TransactionDTO;
 
 // Service layer handling deposits, withdrawals, and transfers
 @Service
+@SuppressWarnings("null")
 public class TransactionService {
 
     private final AccountService accountService;
     private final TransactionRepository transactionRepository;
     private final AlertService alertService;
 
-    // Constructor injection matching professor's plain Java style
-    public TransactionService(AccountService accountService, TransactionRepository transactionRepository, AlertService alertService) {
+    // Constructor injection
+    public TransactionService(AccountService accountService,
+                              TransactionRepository transactionRepository,
+                              AlertService alertService) {
         this.accountService = accountService;
         this.transactionRepository = transactionRepository;
         this.alertService = alertService;
     }
 
     // Deposits money into the specified account
-    @Transactional
-    public void deposite(String accNo, BigDecimal amount) throws AccountNotFoundException, InvalidAmountException {
+    public void deposite(String accNo, BigDecimal amount)
+            throws AccountNotFoundException, InvalidAmountException {
+
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new InvalidAmountException("Deposit amount must be greater than zero");
         }
 
         Account account = accountService.getAccount(accNo);
         account.setBalance(account.getBalance().add(amount));
+        // Save updated balance back to MongoDB
+        accountService.save(account);
 
-        Transaction transaction = new Transaction();
-        transaction.setType(TransactionType.DEPOSIT);
-        transaction.setAmount(amount);
-        transaction.setToAccount(account);
+        Transaction transaction = Transaction.builder()
+                .type(TransactionType.DEPOSIT)
+                .amount(amount)
+                .toAccountNumber(account.getAccountNumber())
+                .toAccountName(account.getHolderName())
+                .build();
         transactionRepository.save(transaction);
-        
+
         alertService.checkAndAlert(account, amount, "DEPOSIT");
     }
 
     // Withdraws money from the specified account
-    @Transactional
-    public void withdraw(String accNo, BigDecimal amount) throws AccountNotFoundException, InvalidAmountException, InsufficientBalanceException {
+    public void withdraw(String accNo, BigDecimal amount)
+            throws AccountNotFoundException, InvalidAmountException, InsufficientBalanceException {
+
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new InvalidAmountException("Withdrawal amount must be greater than zero");
         }
@@ -62,19 +70,24 @@ public class TransactionService {
         }
 
         account.setBalance(account.getBalance().subtract(amount));
+        // Save updated balance back to MongoDB
+        accountService.save(account);
 
-        Transaction transaction = new Transaction();
-        transaction.setType(TransactionType.WITHDRAW);
-        transaction.setAmount(amount);
-        transaction.setFromAccount(account);
+        Transaction transaction = Transaction.builder()
+                .type(TransactionType.WITHDRAW)
+                .amount(amount)
+                .fromAccountNumber(account.getAccountNumber())
+                .fromAccountName(account.getHolderName())
+                .build();
         transactionRepository.save(transaction);
-        
+
         alertService.checkAndAlert(account, amount, "WITHDRAWAL");
     }
 
     // Transfers money between two accounts
-    @Transactional
-    public void transfer(String fromAcc, String toAcc, BigDecimal amount) throws InvalidAmountException, AccountNotFoundException, InsufficientBalanceException {
+    public void transfer(String fromAcc, String toAcc, BigDecimal amount)
+            throws InvalidAmountException, AccountNotFoundException, InsufficientBalanceException {
+
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new InvalidAmountException("Transfer amount must be greater than zero");
         }
@@ -89,60 +102,58 @@ public class TransactionService {
         sender.setBalance(sender.getBalance().subtract(amount));
         receiver.setBalance(receiver.getBalance().add(amount));
 
-        Transaction transaction = new Transaction();
-        transaction.setType(TransactionType.TRANSFER);
-        transaction.setAmount(amount);
-        transaction.setFromAccount(sender);
-        transaction.setToAccount(receiver);
+        // Save both updated balances to MongoDB
+        accountService.save(sender);
+        accountService.save(receiver);
+
+        Transaction transaction = Transaction.builder()
+                .type(TransactionType.TRANSFER)
+                .amount(amount)
+                .fromAccountNumber(sender.getAccountNumber())
+                .fromAccountName(sender.getHolderName())
+                .toAccountNumber(receiver.getAccountNumber())
+                .toAccountName(receiver.getHolderName())
+                .build();
         transactionRepository.save(transaction);
-        
+
         alertService.checkAndAlert(sender, amount, "TRANSFER");
     }
 
-    // Fetches the transaction history for an account
-    @Transactional(readOnly = true)
+    // Fetches the transaction history for a specific account
     public List<TransactionDTO> getAccountHistory(String accNo) throws AccountNotFoundException {
+        // Validate account exists first
         Account account = accountService.getAccount(accNo);
-        List<Transaction> transactions = transactionRepository.findByFromAccountOrToAccountOrderByTimestampDesc(account, account);
-        
-        return transactions.stream().map(t -> {
-            TransactionDTO dto = new TransactionDTO();
-            dto.setId(t.getId());
-            dto.setType(t.getType());
-            dto.setAmount(t.getAmount());
-            dto.setTimestamp(t.getTimestamp());
-            if (t.getFromAccount() != null) {
-                dto.setFromAccountNumber(t.getFromAccount().getAccountNumber());
-                dto.setFromAccountName(t.getFromAccount().getHolderName());
-            }
-            if (t.getToAccount() != null) {
-                dto.setToAccountNumber(t.getToAccount().getAccountNumber());
-                dto.setToAccountName(t.getToAccount().getHolderName());
-            }
-            return dto;
-        }).collect(Collectors.toList());
+        String accountNumber = account.getAccountNumber();
+
+        List<Transaction> transactions = transactionRepository
+                .findByFromAccountNumberOrToAccountNumberOrderByTimestampDesc(
+                        accountNumber, accountNumber);
+
+        return transactions.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 
     // Fetches all transactions across all accounts for the bank employee dashboard
-    @Transactional(readOnly = true)
     public List<TransactionDTO> getAllTransactions() {
-        List<Transaction> transactions = transactionRepository.findAllByOrderByTimestampDesc();
-        
-        return transactions.stream().map(t -> {
-            TransactionDTO dto = new TransactionDTO();
-            dto.setId(t.getId());
-            dto.setType(t.getType());
-            dto.setAmount(t.getAmount());
-            dto.setTimestamp(t.getTimestamp());
-            if (t.getFromAccount() != null) {
-                dto.setFromAccountNumber(t.getFromAccount().getAccountNumber());
-                dto.setFromAccountName(t.getFromAccount().getHolderName());
-            }
-            if (t.getToAccount() != null) {
-                dto.setToAccountNumber(t.getToAccount().getAccountNumber());
-                dto.setToAccountName(t.getToAccount().getHolderName());
-            }
-            return dto;
-        }).collect(Collectors.toList());
+        return transactionRepository.findAllByOrderByTimestampDesc()
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Converts a Transaction document to its DTO — reads denormalized string fields directly
+    private TransactionDTO toDTO(Transaction t) {
+        TransactionDTO dto = new TransactionDTO();
+        dto.setId(t.getId());
+        dto.setType(t.getType());
+        dto.setAmount(t.getAmount());
+        dto.setTimestamp(t.getTimestamp());
+        dto.setFromAccountNumber(t.getFromAccountNumber());
+        dto.setFromAccountName(t.getFromAccountName());
+        dto.setToAccountNumber(t.getToAccountNumber());
+        dto.setToAccountName(t.getToAccountName());
+        dto.setDescription(t.getDescription());
+        return dto;
     }
 }

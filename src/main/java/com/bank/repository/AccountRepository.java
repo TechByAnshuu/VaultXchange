@@ -1,15 +1,15 @@
 package com.bank.repository;
 
 import com.bank.entity.Account;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-// Spring Data JPA handles all SQL queries automatically for accounts table
+// Spring Data MongoDB handles all queries automatically for the 'accounts' collection
 @Repository
-public interface AccountRepository extends JpaRepository<Account, Long> {
+public interface AccountRepository extends MongoRepository<Account, String> {
 
     // Find account by its unique account number string
     Optional<Account> findByAccountNumber(String accountNumber);
@@ -19,4 +19,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     // Check if an email is already registered before creating a new account
     boolean existsByEmail(String email);
+
+    // Check if an account number is already in use
+    boolean existsByAccountNumber(String accountNumber);
 }

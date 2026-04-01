@@ -105,63 +105,17 @@ export default function CustomerHome() {
   const handleBalanceChange = ({ type, amount, toAccountNo, recipientName }) => {
     const isCredit = type === 'credit';
     const delta = isCredit ? amount : -amount;
-    setBalanceDelta(prev => prev + delta);
 
     // Show floating pill
     setBalancePill({ sign: isCredit ? '+' : '-', amount });
     setTimeout(() => setBalancePill(null), 3200);
 
-    // Prepend local transaction
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
-    const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
-    const activeAcc2 = bankAccounts.find(a => a.id === activeAccountId) || bankAccounts[0];
-    const accNo = activeAcc2?.accountNumber || '';
-    const holderName = activeAcc2?.holderName || activeAcc2?.name || 'Account Holder';
-
-    let subTxt = '';
-    let titleTxt = '';
-    let senderName = '', senderAccount = '', receiverName = '', receiverAccount = '', mode = '';
-
-    if (type === 'credit') {
-      titleTxt = 'Add Money';
-      subTxt = `Deposit to ${accNo}`;
-      senderName = 'Self Deposit'; senderAccount = accNo;
-      receiverName = holderName;   receiverAccount = accNo;
-      mode = 'CASH DEPOSIT';
-    } else if (type === 'debit') {
-      titleTxt = 'Withdrawal';
-      subTxt = `Withdrawal from ${accNo}`;
-      senderName = holderName;      senderAccount = accNo;
-      receiverName = 'ATM / Branch Withdrawal'; receiverAccount = 'N/A';
-      mode = 'CASH WITHDRAWAL';
-    } else {
-      titleTxt = recipientName ? `Transfer to ${recipientName}` : 'Transfer';
-      subTxt = `To ${recipientName || toAccountNo || ''} (${toAccountNo || ''})`;
-      senderName = holderName;          senderAccount = accNo;
-      receiverName = recipientName || 'Beneficiary'; receiverAccount = toAccountNo || '—';
-      mode = 'IMPS';
-    }
-
-    const txnId = `TXN${Date.now().toString().slice(-10)}`;
-    const newTxn = {
-      id: txnId,
-      type: isCredit ? 'CREDIT' : 'DEBIT',
-      title: titleTxt, subtitle: subTxt,
-      amount, date: dateStr, time: timeStr,
-      dateDisplay: dateStr, timeDisplay: timeStr,
-      senderName, senderAccount, receiverName, receiverAccount,
-      mode, status: 'COMPLETED',
-      charges: 0, remarks: '',
-      _isNew: true,
-    };
-    setLocalTxns(prev => [newTxn, ...prev]);
-
-
-    // Compute new balance for toast
+    // Compute new balance for toast before backend refreshes array
     const activeAcc = bankAccounts.find(a => a.id === activeAccountId) || bankAccounts[0];
-    const currentBal = activeAcc ? activeAcc.balance + balanceDelta : 0;
-    const newBal = currentBal + delta;
+    const newBal = (activeAcc ? activeAcc.balance : 0) + delta;
+
+    // Trigger backend fresh fetch
+    fetchData();
 
     // Fire toast
     if (type === 'credit') {
@@ -193,15 +147,10 @@ export default function CustomerHome() {
     catch { return currentUser; }
   })();
 
-  // Build accounts with local delta applied
-  const displayAccounts = bankAccounts.map(a =>
-    a.id === activeAccountId
-      ? { ...a, balance: a.balance + balanceDelta }
-      : a
-  );
+  const displayAccounts = bankAccounts;
 
-  // Merged transactions (local first, then backend)
-  const allTransactions = [...localTxns, ...bankTransactions];
+  // Merged transactions (purely from backend)
+  const allTransactions = [...bankTransactions];
 
   return (
     <>

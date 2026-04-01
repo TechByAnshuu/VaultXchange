@@ -1,17 +1,28 @@
 package com.bank.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.lang.NonNull;
 
-// Configures global CORS settings so React frontend can call these APIs
+// Configures global CORS so the React frontend (Vercel) can call these APIs (Render)
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    // Read the Vercel production URL from env var; fall back to localhost for dev
+    @Value("${FRONTEND_URL:http://localhost:5173}")
+    private String frontendUrl;
+
     @Override
-    public void addCorsMappings(CorsRegistry registry) {
+    public void addCorsMappings(@NonNull CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOrigins("http://localhost:5173", "http://localhost:3000") // Vite or Create-React-App default ports
+                .allowedOrigins(
+                        "http://localhost:5173",          // Vite dev server
+                        "http://localhost:3000",           // CRA fallback
+                        "https://vaultxchange.vercel.app", // Vercel production (update after deploy)
+                        frontendUrl                        // env-var override for custom domains
+                )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
