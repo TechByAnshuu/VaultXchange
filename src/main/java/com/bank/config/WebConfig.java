@@ -22,7 +22,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "http://localhost:3000",           // CRA fallback
                         "https://vaultxchange.vercel.app", // Main production
                         "https://vaultxchange-dev.vercel.app", // Dev production
-                        frontendUrl                        // env-var override
+                        "https://vaultxchange-app.vercel.app", // Secondary/Alt production link
+                        frontendUrl.replaceAll("/+$", "")  // env-var override (strip slashes)
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")

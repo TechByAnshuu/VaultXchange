@@ -1,5 +1,6 @@
 const { MongoClient } = require('mongodb');
-const uri = "mongodb+srv://anshmishra1414_db_user:Tyson5678@vaultxchange-cluster.gelim79.mongodb.net/banking_sim?retryWrites=true&w=majority&appName=vaultxchange-cluster";
+require('dotenv').config(); // Ensure dotenv is used if running locally
+const uri = process.env.MONGO_URI;
 const client = new MongoClient(uri);
 async function run() {
   try {
