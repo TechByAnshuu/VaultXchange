@@ -20,8 +20,9 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins(
                         "http://localhost:5173",          // Vite dev server
                         "http://localhost:3000",           // CRA fallback
-                        "https://vaultxchange.vercel.app", // Vercel production (update after deploy)
-                        frontendUrl                        // env-var override for custom domains
+                        "https://vaultxchange.vercel.app", // Main production
+                        "https://vaultxchange-dev.vercel.app", // Dev production
+                        frontendUrl                        // env-var override
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
