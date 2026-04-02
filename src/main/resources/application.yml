@@ -7,8 +7,8 @@ spring:
     import: optional:file:.env[.properties]
   data:
     mongodb:
-      # Set MONGO_URI env var in Render dashboard and local .env
-      uri: ${MONGO_URI}
+      # Supports both MONGO_URI (new) and MONGODB_URI (old/fallback)
+      uri: ${MONGO_URI:${MONGODB_URI:}}
       database: banking_sim
       # Enables @Indexed(unique=true) on Account.accountNumber
       auto-index-creation: true
