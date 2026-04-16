@@ -13,6 +13,26 @@ spring:
       # Enables @Indexed(unique=true) on Account.accountNumber
       auto-index-creation: true
 
+  # Gmail SMTP — credentials sourced from .env, never hardcoded
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+# Low-balance and high-amount alert thresholds
+app:
+  alert:
+    threshold: ${ALERT_THRESHOLD:1000}
+    amount-threshold: ${ALERT_AMOUNT_THRESHOLD:5000}
+
 logging:
   level:
     root: INFO
